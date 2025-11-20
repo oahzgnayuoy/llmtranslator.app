@@ -213,6 +213,9 @@ function clearInput() {
     const outputDiv = document.getElementById('output-text');
     outputDiv.innerHTML = '<span class="text-gray-400">翻译结果将会显示在这里...</span>';
 
+    // ★★★ 新增：隐藏复制按钮 ★★★
+    document.getElementById('btn-copy-output').classList.add('hidden');
+
     if (currentController) {
         currentController.abort();
         document.getElementById('loading-indicator').classList.add('hidden');
@@ -343,7 +346,6 @@ async function doTranslate() {
     }
     
     if (!config.apiKey) {
-        // ★★★ 修改：弹窗提示改为通用 API 密钥 ★★★
         alert('请先点击右上角设置图标，配置 API 密钥');
         openSettings();
         return;
@@ -356,6 +358,9 @@ async function doTranslate() {
 
     outputDiv.innerHTML = ''; 
     loading.classList.remove('hidden');
+    
+    // ★★★ 新增：开始时隐藏复制按钮 ★★★
+    document.getElementById('btn-copy-output').classList.add('hidden');
     
     updateBtnState(true);
 
@@ -439,6 +444,8 @@ Translate the above text enclosed with <translate_input> into ${toLang} without 
                                 fullText += content;
                                 outputDiv.innerHTML = marked.parse(fullText);
                                 outputDiv.scrollTop = outputDiv.scrollHeight;
+                                // ★★★ 新增：流式有内容时显示复制按钮 ★★★
+                                document.getElementById('btn-copy-output').classList.remove('hidden');
                             }
                         } catch (e) {
                             console.warn("JSON Parse Error:", e);
@@ -450,6 +457,8 @@ Translate the above text enclosed with <translate_input> into ${toLang} without 
             const data = await response.json();
             fullText = data.choices[0].message.content;
             outputDiv.innerHTML = marked.parse(fullText);
+            // ★★★ 新增：非流式完成显示复制按钮 ★★★
+            document.getElementById('btn-copy-output').classList.remove('hidden');
         }
 
         addToHistory(sourceVal, targetVal, inputText, fullText);
