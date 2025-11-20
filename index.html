@@ -4,20 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>LLM 翻译器</title>
+    
     <link rel="icon" type="image/x-icon" href="favicon.ico">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-gray-50 text-gray-800 h-[100dvh] flex flex-col overflow-hidden">
 
-    <header class="flex justify-between items-center p-3 border-b bg-white shadow-sm flex-shrink-0">
-        <h1 class="text-lg font-bold flex items-center gap-2 text-gray-800">
+    <header class="flex justify-between items-center p-1.5 border-b bg-white shadow-sm flex-shrink-0">
+        <h1 class="text-base font-bold flex items-center gap-2 text-gray-800 px-2">
             <span>LLM 翻译器</span>
         </h1>
         <div>
-            <button id="btn-settings" class="text-gray-600 hover:text-gray-900 transition text-lg p-1">
+            <button id="btn-settings" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-gray-900 transition rounded-lg hover:bg-gray-50">
                 <i class="fas fa-cog"></i>
             </button>
         </div>
@@ -25,7 +28,7 @@
 
     <main id="view-translate" class="flex-1 flex flex-col md:flex-row overflow-hidden relative">
         
-        <div class="flex-1 flex flex-col p-3 md:border-r border-gray-200 bg-white min-h-0">
+        <div class="flex-1 flex flex-col p-1.5 md:border-r border-gray-200 bg-white min-h-0">
             <div class="flex justify-between items-center mb-2 px-1 gap-2 flex-shrink-0">
                 <select id="source-lang" class="flex-1 w-full h-8 bg-transparent border-none outline-none cursor-pointer font-bold text-gray-700 hover:text-gray-900 transition text-center text-base md:text-sm">
                     <option value="Auto">Auto</option>
@@ -69,14 +72,15 @@
             </div>
         </div>
 
-        <div class="flex-1 flex flex-col px-3 pb-3 pt-0 md:p-3 bg-gray-50 min-h-0 relative">
+        <div class="flex-1 flex flex-col px-1.5 pb-1.5 pt-0 md:p-1.5 bg-gray-50 min-h-0 relative">
+            
             <div class="flex justify-center -mt-5 -mb-5 md:mt-0 md:mb-2 md:block flex-shrink-0 relative z-10">
                 <button id="btn-translate" class="w-24 md:w-full h-10 md:h-8 flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white rounded-full md:rounded-lg font-bold shadow-xl md:shadow-md hover:shadow-2xl transition transform active:scale-[0.99] text-sm">
                     <i class="fas fa-wand-magic-sparkles mr-2"></i>翻译
                 </button>
             </div>
 
-            <div class="flex-1 relative border border-gray-200 rounded-xl bg-white shadow-sm overflow-hidden group mt-4 md:mt-0">
+            <div class="flex-1 relative border border-gray-200 rounded-xl bg-white shadow-sm overflow-hidden group mt-1.5 md:mt-0">
                 <div id="output-text" class="w-full h-full p-3 pb-12 text-base text-gray-700 prose max-w-none overflow-y-auto scrollbar-custom leading-relaxed">
                     <span class="text-gray-400">翻译结果将会显示在这里...</span>
                 </div>
@@ -92,7 +96,7 @@
         </div>
     </main>
 
-    <main id="view-history" class="flex-1 flex-col overflow-hidden hidden bg-gray-50 p-3">
+    <main id="view-history" class="flex-1 flex-col overflow-hidden hidden bg-gray-50 p-1.5">
         <div class="flex justify-between items-center mb-2 px-1 gap-2 flex-shrink-0 h-8">
             <h2 class="text-base font-bold text-gray-800">历史记录</h2>
             <button id="btn-clear-history" class="text-red-500 text-xs border border-red-200 px-2 py-1 rounded hover:bg-red-50 transition">清空所有</button>
@@ -101,7 +105,7 @@
             </div>
     </main>
 
-    <footer class="flex w-full p-1 border-t bg-white z-10 flex-shrink-0">
+    <footer class="flex w-full p-1.5 border-t bg-white z-10 flex-shrink-0">
         <div class="flex-1 flex justify-center items-center">
             <button id="tab-translate" class="text-blue-600 flex flex-col items-center justify-center gap-1 w-16 h-8 hover:bg-gray-50 rounded-lg transition">
                 <i class="fas fa-language text-lg"></i>
@@ -115,11 +119,11 @@
     </footer>
 
     <div id="settings-overlay" class="fixed inset-0 bg-black bg-opacity-30 z-40 hidden backdrop-blur-sm transition-opacity"></div>
-    
-    <div id="settings-panel" class="fixed inset-0 md:inset-y-0 md:left-auto md:right-0 md:w-80 bg-white shadow-2xl transform translate-x-full transition-transform duration-300 z-50 flex flex-col overflow-hidden">
-        <div class="flex justify-between items-center p-3 border-b flex-shrink-0">
-            <h2 class="text-lg font-bold text-gray-800">设置</h2>
-            <button id="btn-close-settings" class="text-gray-400 hover:text-gray-800 transition text-lg p-1"><i class="fas fa-times"></i></button>
+    <div id="settings-panel" class="fixed top-0 right-0 h-full w-full md:w-80 max-w-full bg-white shadow-2xl transform translate-x-full transition-transform duration-300 z-50 flex flex-col overflow-hidden">
+        
+        <div class="flex justify-between items-center p-1.5 border-b flex-shrink-0">
+            <h2 class="text-base font-bold text-gray-800 px-2">设置</h2>
+            <button id="btn-close-settings" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-800 transition rounded-lg hover:bg-gray-50"><i class="fas fa-times"></i></button>
         </div>
 
         <div class="p-3 space-y-6 flex-1 overflow-y-auto overflow-x-hidden">
