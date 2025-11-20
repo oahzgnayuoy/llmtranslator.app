@@ -143,7 +143,7 @@
                     <button id="btn-reset-url" class="text-xs text-blue-500 hover:underline">重置为默认值</button>
                 </div>
                 <div class="w-full overflow-hidden rounded-lg border border-gray-300 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 bg-white">
-                    <input type="text" id="api-url" class="w-full p-3 border-none focus:ring-0 outline-none transition text-base md:text-sm" placeholder="https://api.openai.com">
+                    <textarea id="api-url" rows="3" class="w-full p-3 border-none focus:ring-0 outline-none resize-none transition text-base md:text-sm" placeholder="https://api.openai.com"></textarea>
                 </div>
             </div>
 
@@ -153,14 +153,14 @@
                     <a href="https://platform.openai.com/api-keys" target="_blank" class="text-xs text-blue-500 hover:underline">点击这里获取密钥</a>
                 </div>
                 <div class="w-full overflow-hidden rounded-lg border border-gray-300 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 bg-white">
-                    <input type="password" id="api-key" class="w-full p-3 border-none focus:ring-0 outline-none transition text-base md:text-sm" placeholder="sk-...">
+                    <textarea id="api-key" rows="3" class="w-full p-3 border-none focus:ring-0 outline-none resize-none transition text-base md:text-sm" placeholder="sk-..."></textarea>
                 </div>
             </div>
 
             <div>
                 <label class="block text-sm font-bold text-gray-700 mb-2">模型</label>
                 <div class="relative">
-                    <select id="model-select" class="w-full p-3 border border-gray-300 rounded-lg appearance-none bg-white focus:ring-2 focus:ring-blue-500 outline-none transition text-base md:text-sm">
+                    <select id="model-select" class="w-full min-w-0 p-3 border border-gray-300 rounded-lg appearance-none bg-white focus:ring-2 focus:ring-blue-500 outline-none transition text-base md:text-sm">
                         <option value="gpt-4o-mini" selected>gpt-4o-mini</option>
                         <option value="gpt-4o">gpt-4o</option>
                         <option value="gpt-4.1-nano">gpt-4.1-nano</option>
