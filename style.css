@@ -1,4 +1,4 @@
-/* 全局设置 */
+/* 全局设置：防止水平滚动和橡皮筋效果 */
 html {
     overflow-x: hidden;
     overscroll-behavior-x: none;
@@ -12,11 +12,10 @@ body {
     overflow-x: hidden;
     overscroll-behavior-x: none;
     position: relative;
-    /* ★★★ 新增：禁止水平触摸动作，防止侧滑 ★★★ */
-    touch-action: pan-y; 
+    touch-action: pan-y; /* 禁止水平滑动手势 */
 }
 
-/* 自定义滚动条样式 */
+/* 自定义滚动条 */
 .scrollbar-custom::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -32,7 +31,7 @@ body {
     background: #9ca3af; 
 }
 
-/* Markdown 内容样式微调 */
+/* Markdown 样式微调 */
 .prose p { 
     margin-bottom: 0.75em; 
     line-height: 1.6;
@@ -46,12 +45,12 @@ body {
     color: #1f2937;
 }
 
-/* 按钮点击时的轻微反馈 */
+/* 按钮点击反馈 */
 button:active {
     transform: translateY(1px);
 }
 
-/* 自定义 Slider 样式 */
+/* Slider 样式 */
 .slider-custom {
     -webkit-appearance: none;
     background: #e5e7eb;
