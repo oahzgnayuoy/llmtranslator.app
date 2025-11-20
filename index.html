@@ -16,7 +16,7 @@
 <body class="bg-gray-50 text-gray-800 h-[100dvh] flex flex-col overflow-hidden">
 
     <header class="flex justify-between items-center p-1.5 border-b bg-white shadow-sm flex-shrink-0">
-        <h1 class="text-base font-bold flex items-center gap-2 text-gray-800 px-2">
+        <h1 class="text-lg font-bold flex items-center gap-2 text-gray-800 px-2">
             <span>LLM 翻译器</span>
         </h1>
         <div>
@@ -29,8 +29,8 @@
     <main id="view-translate" class="flex-1 flex flex-col md:flex-row overflow-hidden relative">
         
         <div class="flex-1 flex flex-col p-1.5 md:border-r border-gray-200 bg-white min-h-0">
-            <div class="flex justify-between items-center mb-2 px-1 gap-2 flex-shrink-0">
-                <select id="source-lang" class="flex-1 w-full h-8 bg-transparent border-none outline-none cursor-pointer font-bold text-gray-700 hover:text-gray-900 transition text-center text-base md:text-sm">
+            <div class="flex justify-between items-center mb-2 px-2 gap-2 flex-shrink-0">
+                <select id="source-lang" class="flex-1 w-full h-8 bg-transparent border-none outline-none cursor-pointer font-bold text-gray-700 hover:text-gray-900 transition text-center text-sm">
                     <option value="Auto">Auto</option>
                     <option value="zh-CN">简体中文</option>
                     <option value="zh-TW">正體中文</option>
@@ -47,7 +47,7 @@
                     <i class="fas fa-exchange-alt"></i>
                 </button>
                 
-                <select id="target-lang" class="flex-1 w-full h-8 bg-transparent border-none outline-none cursor-pointer font-bold text-gray-700 hover:text-gray-900 transition text-center text-base md:text-sm">
+                <select id="target-lang" class="flex-1 w-full h-8 bg-transparent border-none outline-none cursor-pointer font-bold text-gray-700 hover:text-gray-900 transition text-center text-sm">
                     <option value="Auto">Auto</option>
                     <option value="zh-CN" selected>简体中文</option>
                     <option value="zh-TW">正體中文</option>
@@ -97,8 +97,8 @@
     </main>
 
     <main id="view-history" class="flex-1 flex-col overflow-hidden hidden bg-gray-50 p-1.5">
-        <div class="flex justify-between items-center mb-2 px-1 gap-2 flex-shrink-0 h-8">
-            <h2 class="text-base font-bold text-gray-800">历史记录</h2>
+        <div class="flex justify-between items-center mb-2 px-2 gap-2 flex-shrink-0 h-8">
+            <h2 class="text-sm font-bold text-gray-800">历史记录</h2>
             <button id="btn-clear-history" class="text-red-500 text-xs border border-red-200 px-2 py-1 rounded hover:bg-red-50 transition">清空所有</button>
         </div>
         <div id="history-list" class="flex-1 overflow-y-auto space-y-3 scrollbar-custom">
@@ -122,7 +122,7 @@
     <div id="settings-panel" class="fixed top-0 right-0 h-full w-full md:w-80 max-w-full bg-white shadow-2xl transform translate-x-full transition-transform duration-300 z-50 flex flex-col overflow-hidden">
         
         <div class="flex justify-between items-center p-1.5 border-b flex-shrink-0">
-            <h2 class="text-base font-bold text-gray-800 px-2">设置</h2>
+            <h2 class="text-lg font-bold text-gray-800 px-2">设置</h2>
             <button id="btn-close-settings" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-800 transition rounded-lg hover:bg-gray-50"><i class="fas fa-times"></i></button>
         </div>
 
