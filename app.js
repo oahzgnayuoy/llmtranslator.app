@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const slider = document.getElementById('temp-slider');
     updateSliderBackground(slider);
-    updateTempLabel(slider.value);
+    // 已移除 updateTempLabel 调用
 });
 
 // ================= 事件监听 =================
@@ -80,7 +80,7 @@ function setupEventListeners() {
     slider.addEventListener('input', (e) => {
         document.getElementById('temp-display').innerText = e.target.value;
         updateSliderBackground(e.target);
-        updateTempLabel(e.target.value);
+        // 已移除 updateTempLabel 调用
     });
 
     const settingInputs = ['api-url', 'api-key', 'model-select', 'stream-toggle', 'temp-slider'];
@@ -105,30 +105,6 @@ function updateBtnState(isTranslating) {
         btn.classList.remove('bg-red-500', 'hover:bg-red-600');
         btn.classList.add('bg-blue-600', 'hover:bg-blue-700');
     }
-}
-
-function updateTempLabel(value) {
-    const label = document.getElementById('temp-status-label');
-    const val = parseFloat(value);
-    let text = '';
-    let colorClass = '';
-
-    if (val <= 0.3) {
-        text = '严谨';
-        colorClass = 'text-blue-600 bg-blue-100';
-    } else if (val <= 1.0) {
-        text = '平衡';
-        colorClass = 'text-green-600 bg-green-100';
-    } else if (val <= 1.5) {
-        text = '创造';
-        colorClass = 'text-yellow-700 bg-yellow-100';
-    } else {
-        text = '混乱';
-        colorClass = 'text-red-600 bg-red-100';
-    }
-
-    label.innerText = text;
-    label.className = `text-xs font-bold px-3 py-1 rounded-full transition-colors duration-300 ${colorClass}`;
 }
 
 // ================= Toast 逻辑 =================
@@ -213,7 +189,6 @@ function clearInput() {
     const outputDiv = document.getElementById('output-text');
     outputDiv.innerHTML = '<span class="text-gray-400">翻译结果将会显示在这里...</span>';
 
-    // ★★★ 新增：隐藏复制按钮 ★★★
     document.getElementById('btn-copy-output').classList.add('hidden');
 
     if (currentController) {
@@ -296,7 +271,6 @@ function loadConfig() {
     document.getElementById('stream-toggle').checked = config.stream;
     
     updateSliderBackground(document.getElementById('temp-slider'));
-    updateTempLabel(config.temperature);
 }
 
 function saveConfigFromUI() {
@@ -358,8 +332,6 @@ async function doTranslate() {
 
     outputDiv.innerHTML = ''; 
     loading.classList.remove('hidden');
-    
-    // ★★★ 新增：开始时隐藏复制按钮 ★★★
     document.getElementById('btn-copy-output').classList.add('hidden');
     
     updateBtnState(true);
@@ -444,7 +416,6 @@ Translate the above text enclosed with <translate_input> into ${toLang} without 
                                 fullText += content;
                                 outputDiv.innerHTML = marked.parse(fullText);
                                 outputDiv.scrollTop = outputDiv.scrollHeight;
-                                // ★★★ 新增：流式有内容时显示复制按钮 ★★★
                                 document.getElementById('btn-copy-output').classList.remove('hidden');
                             }
                         } catch (e) {
@@ -457,7 +428,6 @@ Translate the above text enclosed with <translate_input> into ${toLang} without 
             const data = await response.json();
             fullText = data.choices[0].message.content;
             outputDiv.innerHTML = marked.parse(fullText);
-            // ★★★ 新增：非流式完成显示复制按钮 ★★★
             document.getElementById('btn-copy-output').classList.remove('hidden');
         }
 
