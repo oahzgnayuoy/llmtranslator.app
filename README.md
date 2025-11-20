@@ -1,1 +1,0 @@
-# llmtranslator.app
