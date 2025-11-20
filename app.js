@@ -318,7 +318,6 @@ function openSettings() {
 function closeSettings() {
     if (settingsDirty) {
         saveConfigFromUI();
-        // ★★★ 修改：修改提示文字为“设置已更新” ★★★
         showToast("设置已更新", "success");
         settingsDirty = false;
     }
@@ -344,7 +343,8 @@ async function doTranslate() {
     }
     
     if (!config.apiKey) {
-        alert('请先点击右上角设置图标，配置 OpenAI API 密钥');
+        // ★★★ 修改：弹窗提示改为通用 API 密钥 ★★★
+        alert('请先点击右上角设置图标，配置 API 密钥');
         openSettings();
         return;
     }
