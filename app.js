@@ -3,10 +3,12 @@ const CONFIG_KEY = 'openai_translator_config_v2';
 const HISTORY_KEY = 'openai_translator_history_v2';
 const LANG_KEY = 'openai_translator_lang_prefs';
 
+// 全局控制器 & 状态
 let currentController = null; 
 let toastTimeout = null;
 let settingsDirty = false; 
 
+// 默认配置
 let config = {
     apiUrl: 'https://api.openai.com',
     apiKey: '',
@@ -15,6 +17,7 @@ let config = {
     stream: true
 };
 
+// 语言映射
 const langMap = {
     'zh-CN': 'Simplified Chinese',
     'zh-TW': 'Traditional Chinese',
@@ -40,6 +43,13 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const slider = document.getElementById('temp-slider');
     updateSliderBackground(slider);
+    // 移除 updateTempLabel 因为它在最新的 HTML 修改中已被移除需求
+
+    // ★★★ 修复：页面加载完成后再添加过渡动画，防止FOUC导致的闪烁 ★★★
+    setTimeout(() => {
+        const panel = document.getElementById('settings-panel');
+        panel.classList.add('transition-transform', 'duration-300');
+    }, 300);
 });
 
 // ================= 事件监听 =================
@@ -245,7 +255,7 @@ function switchTab(tabName) {
         historyView.classList.add('flex');
 
         tabTranslate.classList.replace('text-blue-600', 'text-gray-400');
-        tabHistory.classList.replace('text-gray-400', 'text-blue-600');
+        tabHistory.classList.replace('text-blue-600', 'text-gray-400');
         
         loadHistory();
     }
