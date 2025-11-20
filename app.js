@@ -3,12 +3,10 @@ const CONFIG_KEY = 'openai_translator_config_v2';
 const HISTORY_KEY = 'openai_translator_history_v2';
 const LANG_KEY = 'openai_translator_lang_prefs';
 
-// 全局控制器 & 状态
 let currentController = null; 
 let toastTimeout = null;
 let settingsDirty = false; 
 
-// 默认配置
 let config = {
     apiUrl: 'https://api.openai.com',
     apiKey: '',
@@ -17,7 +15,6 @@ let config = {
     stream: true
 };
 
-// 语言映射
 const langMap = {
     'zh-CN': 'Simplified Chinese',
     'zh-TW': 'Traditional Chinese',
@@ -43,7 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const slider = document.getElementById('temp-slider');
     updateSliderBackground(slider);
-    // 已移除 updateTempLabel 调用
 });
 
 // ================= 事件监听 =================
@@ -80,7 +76,6 @@ function setupEventListeners() {
     slider.addEventListener('input', (e) => {
         document.getElementById('temp-display').innerText = e.target.value;
         updateSliderBackground(e.target);
-        // 已移除 updateTempLabel 调用
     });
 
     const settingInputs = ['api-url', 'api-key', 'model-select', 'stream-toggle', 'temp-slider'];
@@ -413,9 +408,12 @@ Translate the above text enclosed with <translate_input> into ${toLang} without 
                             const data = JSON.parse(jsonStr);
                             const content = data.choices[0]?.delta?.content;
                             if (content) {
+                                const isAtBottom = outputDiv.scrollHeight - outputDiv.scrollTop - outputDiv.clientHeight < 50;
                                 fullText += content;
                                 outputDiv.innerHTML = marked.parse(fullText);
-                                outputDiv.scrollTop = outputDiv.scrollHeight;
+                                if (isAtBottom) {
+                                    outputDiv.scrollTop = outputDiv.scrollHeight;
+                                }
                                 document.getElementById('btn-copy-output').classList.remove('hidden');
                             }
                         } catch (e) {
