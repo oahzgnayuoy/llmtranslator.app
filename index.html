@@ -129,7 +129,7 @@
         <div class="p-3 space-y-6 flex-1 overflow-y-auto overflow-x-hidden">
             <div class="flex justify-between items-center">
                 <div>
-                    <label class="font-bold text-gray-700 block">流式输出</label>
+                    <label class="block text-sm font-bold text-gray-700">流式输出</label>
                 </div>
                 <label class="relative inline-flex items-center cursor-pointer">
                     <input type="checkbox" id="stream-toggle" class="sr-only peer">
@@ -143,7 +143,7 @@
                     <button id="btn-reset-url" class="text-xs text-blue-500 hover:underline">重置为默认值</button>
                 </div>
                 <div class="w-full overflow-hidden rounded-lg border border-gray-300 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 bg-white">
-                    <textarea id="api-url" rows="3" class="w-full p-3 border-none focus:ring-0 outline-none resize-none transition text-base md:text-sm" placeholder="https://api.openai.com"></textarea>
+                    <textarea id="api-url" rows="1" class="w-full p-3 border-none focus:ring-0 outline-none resize-none transition text-base md:text-sm" placeholder="https://api.openai.com"></textarea>
                 </div>
             </div>
 
@@ -179,13 +179,7 @@
                     <label class="block text-sm font-bold text-gray-700">模型温度</label>
                     <span id="temp-display" class="text-xs font-mono bg-gray-100 px-2 py-0.5 rounded">0.1</span>
                 </div>
-                <input type="range" id="temp-slider" min="0" max="2" step="0.1" value="0.1" class="slider-custom w-full h-2 rounded-lg appearance-none cursor-pointer">
-                
-                <div class="mt-2">
-                    <span id="temp-status-label" class="text-xs font-bold px-3 py-1 rounded-full transition-colors duration-300 text-blue-600 bg-blue-100">
-                        严谨
-                    </span>
-                </div>
+                <input type="range" id="temp-slider" min="0" max="1" step="0.1" value="0.1" class="slider-custom w-full h-2 rounded-lg appearance-none cursor-pointer mb-6">
             </div>
         </div>
     </div>
