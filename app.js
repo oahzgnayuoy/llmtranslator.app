@@ -5,7 +5,6 @@ const UI_LANG_KEY = 'openai_translator_ui_lang';
 let currentController = null;
 let toastTimeout = null;
 let settingsDirty = false;
-// Changed default language to English
 let currentLang = 'en';
 const translations = {
     'zh': {
@@ -622,3 +621,4 @@ function renderHistoryList(history) {
         </div>
     `).join('');
 }
+
