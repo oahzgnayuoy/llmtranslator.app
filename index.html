@@ -75,8 +75,9 @@
         <div class="flex-1 flex flex-col px-1.5 pb-1.5 pt-0 md:p-1.5 bg-gray-50 min-h-0 relative">
             
             <div class="flex justify-center -mt-5 -mb-5 md:mt-0 md:mb-2 md:block flex-shrink-0 relative z-10">
-                <button id="btn-translate" class="w-24 md:w-full h-10 md:h-8 flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white rounded-full md:rounded-lg font-bold shadow-xl md:shadow-md hover:shadow-2xl transition transform active:scale-[0.99] text-sm">
-                    <i class="fas fa-wand-magic-sparkles mr-2"></i>翻译
+                <button id="btn-translate" class="w-10 h-10 md:w-full md:h-8 flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white rounded-full md:rounded-lg font-bold shadow-xl md:shadow-md hover:shadow-2xl transition transform active:scale-[0.99] text-sm p-0 md:px-4">
+                    <i class="fas fa-paper-plane"></i>
+                    <span class="hidden md:inline ml-2">翻译</span>
                 </button>
             </div>
 
@@ -119,7 +120,7 @@
     </footer>
 
     <div id="settings-overlay" class="fixed inset-0 bg-black bg-opacity-30 z-40 hidden backdrop-blur-sm transition-opacity"></div>
-    <div id="settings-panel" class="fixed top-0 right-0 h-full w-full md:w-80 max-w-full bg-white shadow-2xl transform translate-x-full z-50 flex flex-col overflow-hidden">
+    <div id="settings-panel" class="fixed top-0 right-0 h-full w-full md:w-80 max-w-full bg-white shadow-2xl transform translate-x-full transition-transform duration-300 z-50 flex flex-col overflow-hidden">
         
         <div class="flex justify-between items-center p-1.5 border-b flex-shrink-0">
             <h2 class="text-lg font-bold text-gray-800 px-2">设置</h2>
@@ -153,7 +154,7 @@
                     <a href="https://platform.openai.com/api-keys" target="_blank" class="text-xs text-blue-500 hover:underline">点击这里获取密钥</a>
                 </div>
                 <div class="w-full overflow-hidden rounded-lg border border-gray-300 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 bg-white">
-                    <textarea id="api-key" rows="3" class="w-full p-3 border-none focus:ring-0 outline-none resize-none transition text-base md:text-sm" placeholder="sk-..."></textarea>
+                    <textarea id="api-key" rows="2" class="w-full p-3 border-none focus:ring-0 outline-none resize-none transition text-base md:text-sm" placeholder="sk-..."></textarea>
                 </div>
             </div>
 
