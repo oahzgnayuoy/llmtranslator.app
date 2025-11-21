@@ -78,7 +78,8 @@ const translations = {
         output_placeholder: "Translation will appear here...",
         btn_translate: "Translate",
         btn_stop: "Stop",
-        status_thinking: "Thinking...",
+        // ★★★ 修改：改为 Please wait... 以对应中文 ★★★
+        status_thinking: "Please wait...",
         history_title: "History",
         history_clear: "Clear All",
         history_empty: "No history yet",
