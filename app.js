@@ -54,7 +54,7 @@ const translations = {
         setting_api_url: "API URL",
         setting_reset: "重設為預設值",
         setting_api_key: "API 金鑰",
-        setting_get_key: "點此獲取 OpenAI API Key",
+        setting_get_key: "按此獲取 OpenAI API Key",
         key_placeholder: "sk-...",
         setting_model: "模型",
         model_custom: "自訂",
@@ -64,7 +64,7 @@ const translations = {
         toast_settings_unsaved: "設定未儲存",
         toast_translate_done: "翻譯完成",
         toast_translate_abort: "翻譯中止",
-        alert_api_key: "請先點擊右上角設定圖標，配置 API Key",
+        alert_api_key: "請先按右上角設定圖標，配置 API Key",
         copy_fail: "複製失敗"
     },
     'en': {
@@ -621,6 +621,7 @@ function renderHistoryList(history) {
         </div>
     `).join('');
 }
+
 
 
 
