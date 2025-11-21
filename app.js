@@ -46,7 +46,7 @@ const translations = {
         btn_stop: "停止",
         status_thinking: "請稍等...",
         history_title: "歷史記錄",
-        history_clear: "清空所有",
+        history_clear: "清除所有",
         history_empty: "暫無歷史記錄",
         history_clear_confirm: "確定要清空所有歷史記錄嗎？",
         settings_title: "設定",
@@ -621,3 +621,4 @@ function renderHistoryList(history) {
         </div>
     `).join('');
 }
+
