@@ -43,9 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const slider = document.getElementById('temp-slider');
     updateSliderBackground(slider);
-    // 移除 updateTempLabel 因为它在最新的 HTML 修改中已被移除需求
-
-    // ★★★ 修复：页面加载完成后再添加过渡动画，防止FOUC导致的闪烁 ★★★
+    
     setTimeout(() => {
         const panel = document.getElementById('settings-panel');
         panel.classList.add('transition-transform', 'duration-300');
@@ -98,15 +96,17 @@ function setupEventListeners() {
     });
 }
 
-// ================= UI 状态管理 =================
+// ================= UI 状态管理 (更新版) =================
 function updateBtnState(isTranslating) {
     const btn = document.getElementById('btn-translate');
     if (isTranslating) {
-        btn.innerHTML = '<i class="fas fa-stop mr-2"></i>停止';
+        // ★★★ 停止状态：手机只显图标，电脑显文字 ★★★
+        btn.innerHTML = '<i class="fas fa-stop"></i><span class="hidden md:inline ml-2">停止</span>';
         btn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
         btn.classList.add('bg-red-500', 'hover:bg-red-600');
     } else {
-        btn.innerHTML = '<i class="fas fa-wand-magic-sparkles mr-2"></i>翻译';
+        // ★★★ 翻译状态：手机只显图标，电脑显文字 ★★★
+        btn.innerHTML = '<i class="fas fa-paper-plane"></i><span class="hidden md:inline ml-2">翻译</span>';
         btn.classList.remove('bg-red-500', 'hover:bg-red-600');
         btn.classList.add('bg-blue-600', 'hover:bg-blue-700');
     }
@@ -255,7 +255,7 @@ function switchTab(tabName) {
         historyView.classList.add('flex');
 
         tabTranslate.classList.replace('text-blue-600', 'text-gray-400');
-        tabHistory.classList.replace('text-blue-600', 'text-gray-400');
+        tabHistory.classList.replace('text-gray-400', 'text-blue-600');
         
         loadHistory();
     }
