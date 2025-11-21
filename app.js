@@ -317,7 +317,7 @@ function clearInput() {
     inputBox.focus();
     toggleClearButton();
     const outputDiv = document.getElementById('output-text');
-    outputDiv.innerHTML = `<span class="text-gray-400">${getTrans('output_placeholder')}</span>`;
+    outputDiv.innerHTML = `<span class="text-gray-400" data-i18n="output_placeholder">${getTrans('output_placeholder')}</span>`;
     document.getElementById('btn-copy-output').classList.add('hidden');
     if (currentController) {
         currentController.abort();
