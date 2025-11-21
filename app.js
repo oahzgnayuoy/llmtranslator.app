@@ -50,7 +50,7 @@ const translations = {
         history_empty: "暫無歷史記錄",
         history_clear_confirm: "確定要清除所有歷史記錄嗎？",
         settings_title: "設定",
-        setting_stream: "串流回應",
+        setting_stream: "串流輸出",
         setting_api_url: "API URL",
         setting_reset: "重設為預設值",
         setting_api_key: "API 金鑰",
@@ -621,6 +621,7 @@ function renderHistoryList(history) {
         </div>
     `).join('');
 }
+
 
 
 
