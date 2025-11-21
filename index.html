@@ -4,61 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>LLM 翻译器</title>
-    
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#ffffff">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="icon-192.png">
-
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
-    
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    
     <link rel="stylesheet" href="style.css">
-    
-    <style>
-        .material-symbols-rounded {
-            font-size: 20px;
-            vertical-align: middle;
-            line-height: 1;
-            display: inline-block; 
-        }
-        .text-lg .material-symbols-rounded { font-size: 24px; }
-    </style>
 </head>
 <body class="bg-gray-50 text-gray-800 h-[100dvh] flex flex-col overflow-hidden">
-
     <header class="flex justify-between items-center p-1.5 border-b bg-white shadow-sm flex-shrink-0">
         <h1 class="text-lg font-bold flex items-center gap-2 text-gray-800 px-2">
             <span data-i18n="app_title">LLM 翻译器</span>
         </h1>
         <div class="flex gap-1 items-center">
-            
             <div class="relative">
                 <button id="btn-lang" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-gray-900 transition rounded-lg hover:bg-gray-50" title="Change Language">
                     <span class="material-symbols-rounded">letter_switch</span>
                 </button>
-                
                 <div id="lang-menu" class="hidden absolute right-0 top-full mt-1 w-32 bg-white border border-gray-200 rounded-lg shadow-xl z-50 overflow-hidden py-1">
                     <button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition" onclick="changeLanguage('en')">English</button>
                     <button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition" onclick="changeLanguage('zh')">简体中文</button>
                     <button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition" onclick="changeLanguage('zh-tw')">正體中文</button>
                 </div>
             </div>
-
             <button id="btn-settings" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-gray-900 transition rounded-lg hover:bg-gray-50">
                 <span class="material-symbols-rounded">settings</span>
             </button>
         </div>
     </header>
-
     <main id="view-translate" class="flex-1 flex flex-col md:flex-row overflow-hidden relative">
-        
         <div class="flex-1 flex flex-col p-1.5 md:border-r border-gray-200 bg-white min-h-0">
             <div class="flex justify-between items-center mb-2 px-2 gap-2 flex-shrink-0">
                 <select id="source-lang" class="flex-1 w-full h-8 bg-transparent border-none outline-none cursor-pointer font-bold text-gray-700 hover:text-gray-900 transition text-center text-sm">
@@ -73,11 +51,9 @@
                     <option value="es">Español</option>
                     <option value="ru">Русский</option>
                 </select>
-                
                 <button id="btn-swap-lang" class="h-8 w-8 flex items-center justify-center text-gray-400 hover:text-gray-600 transition text-sm" title="Swap">
                     <span class="material-symbols-rounded">swap_horiz</span>
                 </button>
-                
                 <select id="target-lang" class="flex-1 w-full h-8 bg-transparent border-none outline-none cursor-pointer font-bold text-gray-700 hover:text-gray-900 transition text-center text-sm">
                     <option value="Auto" data-i18n="lang_auto">Auto</option>
                     <option value="zh-CN">简体中文</option>
@@ -91,53 +67,41 @@
                     <option value="ru">Русский</option>
                 </select>
             </div>
-
             <div class="flex-1 relative border border-gray-300 rounded-xl shadow-inner bg-gray-50 overflow-hidden group focus-within:border-blue-400 focus-within:ring-1 focus-within:ring-blue-400 transition-all">
-                <textarea id="input-text" 
-                    class="w-full h-full p-3 pr-10 resize-none outline-none bg-transparent text-base leading-relaxed scrollbar-custom" 
-                    placeholder="请输入您想要翻译的文字..." data-i18n-placeholder="input_placeholder"></textarea>
-                
+                <textarea id="input-text" class="w-full h-full p-3 pr-10 resize-none outline-none bg-transparent text-base leading-relaxed scrollbar-custom" placeholder="请输入您想要翻译的文字..." data-i18n-placeholder="input_placeholder"></textarea>
                 <button id="btn-clear-input" class="absolute bottom-3 right-3 text-gray-400 hover:text-red-500 bg-white rounded-full w-8 h-8 shadow-sm border border-gray-200 hidden group-hover:flex items-center justify-center transition" title="Clear">
-                    <span class="material-symbols-rounded" style="font-size: 18px;">delete_outline</span>
+                    <span class="material-symbols-rounded">delete_outline</span>
                 </button>
             </div>
         </div>
-
         <div class="flex-1 flex flex-col px-1.5 pb-1.5 pt-0 md:p-1.5 bg-gray-50 min-h-0 relative">
-            
             <div class="flex justify-center -mt-5 -mb-5 md:mt-0 md:mb-2 md:block flex-shrink-0 relative z-10">
                 <button id="btn-translate" class="w-10 h-10 md:w-full md:h-8 flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white rounded-full md:rounded-lg font-bold shadow-xl md:shadow-md hover:shadow-2xl transition transform active:scale-[0.99] text-sm p-0 md:px-4">
-                    <span class="material-symbols-rounded md:mr-1" style="font-size: 18px;">chat_paste_go</span>
+                    <span class="material-symbols-rounded md:mr-1">chat_paste_go</span>
                     <span class="hidden md:inline" data-i18n="btn_translate">翻译</span>
                 </button>
             </div>
-
             <div class="flex-1 relative border border-gray-200 rounded-xl bg-white shadow-sm overflow-hidden group mt-1.5 md:mt-0">
                 <div id="output-text" class="w-full h-full p-3 pb-12 text-base text-gray-700 prose max-w-none overflow-y-auto scrollbar-custom leading-relaxed">
                     <span class="text-gray-400" data-i18n="output_placeholder">翻译结果将会显示在这里...</span>
                 </div>
-                
                 <div id="loading-indicator" class="hidden absolute top-4 left-4 bg-white/80 backdrop-blur px-3 py-1 rounded-full border border-blue-100 text-blue-600 text-sm font-medium shadow-sm flex items-center gap-2">
-                    <span class="material-symbols-rounded animate-spin">sync</span> 
+                    <span class="material-symbols-rounded animate-spin">sync</span>
                     <span data-i18n="status_thinking">请稍等...</span>
                 </div>
-
                 <button id="btn-copy-output" class="hidden absolute bottom-3 right-3 text-gray-400 hover:text-green-600 bg-gray-50 hover:bg-white rounded-full w-8 h-8 shadow-sm border border-gray-200 flex items-center justify-center transition" title="Copy">
-                    <span class="material-symbols-rounded" style="font-size: 18px;">content_copy</span>
+                    <span class="material-symbols-rounded">content_copy</span>
                 </button>
             </div>
         </div>
     </main>
-
     <main id="view-history" class="flex-1 flex-col overflow-hidden hidden bg-gray-50 p-1.5">
         <div class="flex justify-between items-center mb-2 px-2 gap-2 flex-shrink-0 h-8">
             <h2 class="text-base md:text-sm font-bold text-gray-800" data-i18n="history_title">历史记录</h2>
             <button id="btn-clear-history" class="text-red-500 text-xs border border-red-200 px-2 py-1 rounded hover:bg-red-50 transition" data-i18n="history_clear">清空所有</button>
         </div>
-        <div id="history-list" class="flex-1 overflow-y-auto space-y-3 scrollbar-custom">
-            </div>
+        <div id="history-list" class="flex-1 overflow-y-auto space-y-3 scrollbar-custom"></div>
     </main>
-
     <footer class="flex w-full p-1.5 border-t bg-white z-10 flex-shrink-0">
         <div class="flex-1 flex justify-center items-center">
             <button id="tab-translate" class="text-blue-600 flex flex-col items-center justify-center gap-1 w-16 h-8 hover:bg-gray-50 rounded-lg transition">
@@ -150,17 +114,14 @@
             </button>
         </div>
     </footer>
-
     <div id="settings-overlay" class="fixed inset-0 bg-black bg-opacity-30 z-40 hidden backdrop-blur-sm transition-opacity"></div>
     <div id="settings-panel" class="fixed top-0 right-0 h-full w-full md:w-80 max-w-full bg-white shadow-2xl transform translate-x-full transition-transform duration-300 z-50 flex flex-col overflow-hidden">
-        
         <div class="flex justify-between items-center p-1.5 border-b flex-shrink-0">
             <h2 class="text-lg font-bold text-gray-800 px-2" data-i18n="settings_title">设置</h2>
             <button id="btn-close-settings" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-800 transition rounded-lg hover:bg-gray-50">
                 <span class="material-symbols-rounded">close</span>
             </button>
         </div>
-
         <div class="p-3 space-y-6 flex-1 overflow-y-auto overflow-x-hidden">
             <div class="flex justify-between items-center">
                 <div>
@@ -171,7 +132,6 @@
                     <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600 shadow-inner"></div>
                 </label>
             </div>
-
             <div>
                 <div class="flex justify-between mb-2">
                     <label class="block text-sm font-bold text-gray-700" data-i18n="setting_api_url">API 地址</label>
@@ -181,7 +141,6 @@
                     <textarea id="api-url" rows="1" class="w-full p-3 border-none focus:ring-0 outline-none resize-none transition text-base md:text-sm" placeholder="https://api.openai.com"></textarea>
                 </div>
             </div>
-
             <div>
                 <div class="flex justify-between mb-2">
                     <label class="block text-sm font-bold text-gray-700">API 密钥</label>
@@ -191,7 +150,6 @@
                     <textarea id="api-key" rows="2" class="w-full p-3 border-none focus:ring-0 outline-none resize-none transition text-base md:text-sm" placeholder="sk-..." data-i18n-placeholder="key_placeholder"></textarea>
                 </div>
             </div>
-
             <div>
                 <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="setting_model">模型</label>
                 <div class="relative">
@@ -205,15 +163,13 @@
                         <option value="custom" data-i18n="model_custom">自定义</option>
                     </select>
                     <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                        <span class="material-symbols-rounded" style="font-size: 20px;">expand_more</span>
+                        <span class="material-symbols-rounded">expand_more</span>
                     </div>
                 </div>
-                
                 <div id="custom-model-container" class="hidden mt-2 w-full overflow-hidden rounded-lg border border-gray-300 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 bg-white">
                     <textarea id="custom-model-input" rows="1" class="w-full p-3 border-none focus:ring-0 outline-none resize-none transition text-base md:text-sm" placeholder="输入模型 ID" data-i18n-placeholder="custom_model_placeholder"></textarea>
                 </div>
             </div>
-
             <div>
                 <div class="flex justify-between mb-2">
                     <label class="block text-sm font-bold text-gray-700">模型温度</label>
@@ -223,12 +179,10 @@
             </div>
         </div>
     </div>
-
     <div id="toast-notification" class="fixed top-6 left-1/2 transform -translate-x-1/2 z-[60] px-4 py-2 rounded-lg shadow-lg font-bold text-sm transition-all duration-300 opacity-0 -translate-y-10 pointer-events-none flex items-center gap-2">
-        <i id="toast-icon" class="material-symbols-rounded" style="font-size: 20px;"></i>
+        <i id="toast-icon" class="material-symbols-rounded"></i>
         <span id="toast-message"></span>
     </div>
-
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
@@ -236,7 +190,6 @@
             });
         }
     </script>
-
     <script src="app.js"></script>
 </body>
 </html>
