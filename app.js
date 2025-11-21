@@ -5,7 +5,8 @@ const UI_LANG_KEY = 'openai_translator_ui_lang';
 let currentController = null;
 let toastTimeout = null;
 let settingsDirty = false;
-let currentLang = 'zh';
+// Changed default language to English
+let currentLang = 'en';
 const translations = {
     'zh': {
         app_title: "LLM 翻译器",
