@@ -21,7 +21,7 @@ const translations = {
         history_clear_confirm: "确定要清空所有历史记录吗？",
         settings_title: "设置",
         setting_stream: "流式输出",
-        setting_api_url: "API 地址",
+        setting_api_url: "API URL",
         setting_reset: "重置为默认值",
         setting_api_key: "API 密钥",
         setting_get_key: "点击这里获取密钥",
@@ -51,7 +51,7 @@ const translations = {
         history_clear_confirm: "確定要清除所有歷史記錄嗎？",
         settings_title: "設定",
         setting_stream: "流式輸出",
-        setting_api_url: "API Url",
+        setting_api_url: "API URL",
         setting_reset: "重設為預設值",
         setting_api_key: "API 金鑰",
         setting_get_key: "點擊這裡獲取金鑰",
@@ -81,7 +81,7 @@ const translations = {
         history_clear_confirm: "Are you sure you want to clear all history?",
         settings_title: "Settings",
         setting_stream: "Stream Output",
-        setting_api_url: "API Endpoint",
+        setting_api_url: "API URL",
         setting_reset: "Reset Default",
         setting_api_key: "API Key",
         setting_get_key: "Get API Key Here",
@@ -621,5 +621,6 @@ function renderHistoryList(history) {
         </div>
     `).join('');
 }
+
 
 
