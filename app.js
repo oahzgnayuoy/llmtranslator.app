@@ -600,7 +600,7 @@ function renderHistoryList(history) {
         container.innerHTML = `
             <div class="flex flex-col items-center justify-center h-64 text-gray-300">
                 <i class="material-symbols-rounded" style="font-size: 48px;">history</i>
-                <p>${getTrans('history_empty')}</p>
+                <p data-i18n="history_empty">${getTrans('history_empty')}</p>
             </div>`;
         return;
     }
@@ -621,4 +621,3 @@ function renderHistoryList(history) {
         </div>
     `).join('');
 }
-
