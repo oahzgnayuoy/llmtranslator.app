@@ -1,7 +1,7 @@
 {
   "name": "LLM Translator",
   "short_name": "LLM Translator",
-  "start_url": "./index.html",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#f9fafb",
   "theme_color": "#ffffff",
@@ -20,3 +20,4 @@
   ]
 
 }
+
