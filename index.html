@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>LLM 翻译器</title>
+    <title>LLM Translator</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#ffffff">
@@ -18,7 +18,7 @@
 <body class="bg-gray-50 text-gray-800 h-[100dvh] flex flex-col overflow-hidden">
     <header class="flex justify-between items-center p-1.5 border-b bg-white shadow-sm flex-shrink-0">
         <h1 class="text-lg font-bold flex items-center gap-2 text-gray-800 px-2">
-            <span data-i18n="app_title">LLM 翻译器</span>
+            <span data-i18n="app_title">LLM Translator</span>
         </h1>
         <div class="flex gap-1 items-center">
             <div class="relative">
@@ -68,7 +68,7 @@
                 </select>
             </div>
             <div class="flex-1 relative border border-gray-300 rounded-xl shadow-inner bg-gray-50 overflow-hidden group focus-within:border-blue-400 focus-within:ring-1 focus-within:ring-blue-400 transition-all">
-                <textarea id="input-text" class="w-full h-full p-3 pr-10 resize-none outline-none bg-transparent text-base leading-relaxed scrollbar-custom" placeholder="请输入您想要翻译的文字..." data-i18n-placeholder="input_placeholder"></textarea>
+                <textarea id="input-text" class="w-full h-full p-3 pr-10 resize-none outline-none bg-transparent text-base leading-relaxed scrollbar-custom" placeholder="Enter text to translate..." data-i18n-placeholder="input_placeholder"></textarea>
                 <button id="btn-clear-input" class="absolute bottom-3 right-3 text-gray-400 hover:text-red-500 bg-white rounded-full w-8 h-8 shadow-sm border border-gray-200 hidden group-hover:flex items-center justify-center transition" title="Clear">
                     <span class="material-symbols-rounded">delete_outline</span>
                 </button>
@@ -78,16 +78,16 @@
             <div class="flex justify-center -mt-5 -mb-5 md:mt-0 md:mb-2 md:block flex-shrink-0 relative z-10">
                 <button id="btn-translate" class="w-10 h-10 md:w-full md:h-8 flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white rounded-full md:rounded-lg font-bold shadow-xl md:shadow-md hover:shadow-lg transition transform active:scale-[0.99] text-sm p-0 md:px-4">
                     <span class="material-symbols-rounded md:mr-1">chat_paste_go</span>
-                    <span class="hidden md:inline" data-i18n="btn_translate">翻译</span>
+                    <span class="hidden md:inline" data-i18n="btn_translate">Translate</span>
                 </button>
             </div>
             <div class="flex-1 relative border border-gray-200 rounded-xl bg-white shadow-sm overflow-hidden group mt-1.5 md:mt-0">
                 <div id="output-text" class="w-full h-full p-3 pb-12 text-base text-gray-700 prose max-w-none overflow-y-auto scrollbar-custom leading-relaxed">
-                    <span class="text-gray-400" data-i18n="output_placeholder">翻译结果将会显示在这里...</span>
+                    <span class="text-gray-400" data-i18n="output_placeholder">Translation will appear here...</span>
                 </div>
                 <div id="loading-indicator" class="hidden absolute top-4 left-4 bg-white/80 backdrop-blur px-3 py-1 rounded-full border border-blue-100 text-blue-600 text-sm font-medium shadow-sm flex items-center gap-2">
                     <span class="material-symbols-rounded animate-spin">sync</span>
-                    <span data-i18n="status_thinking">请稍等...</span>
+                    <span data-i18n="status_thinking">Please wait...</span>
                 </div>
                 <button id="btn-copy-output" class="hidden absolute bottom-3 right-3 text-gray-400 hover:text-green-600 bg-gray-50 hover:bg-white rounded-full w-8 h-8 shadow-sm border border-gray-200 flex items-center justify-center transition" title="Copy">
                     <span class="material-symbols-rounded">content_copy</span>
@@ -97,8 +97,8 @@
     </main>
     <main id="view-history" class="flex-1 flex-col overflow-hidden hidden bg-gray-50 p-1.5">
         <div class="flex justify-between items-center mb-2 px-2 gap-2 flex-shrink-0 h-8">
-            <h2 class="text-base md:text-sm font-bold text-gray-800" data-i18n="history_title">历史记录</h2>
-            <button id="btn-clear-history" class="text-red-500 text-xs border border-red-200 px-2 py-1 rounded hover:bg-red-50 transition" data-i18n="history_clear">清空所有</button>
+            <h2 class="text-base md:text-sm font-bold text-gray-800" data-i18n="history_title">History</h2>
+            <button id="btn-clear-history" class="text-red-500 text-xs border border-red-200 px-2 py-1 rounded hover:bg-red-50 transition" data-i18n="history_clear">Clear All</button>
         </div>
         <div id="history-list" class="flex-1 overflow-y-auto space-y-3 scrollbar-custom"></div>
     </main>
@@ -117,7 +117,7 @@
     <div id="settings-overlay" class="fixed inset-0 bg-black bg-opacity-30 z-40 hidden backdrop-blur-sm transition-opacity"></div>
     <div id="settings-panel" class="fixed top-0 right-0 h-full w-full md:w-80 max-w-full bg-white shadow-2xl transform translate-x-full transition-transform duration-300 z-50 flex flex-col overflow-hidden">
         <div class="flex justify-between items-center p-1.5 border-b flex-shrink-0">
-            <h2 class="text-lg font-bold text-gray-800 px-2" data-i18n="settings_title">设置</h2>
+            <h2 class="text-lg font-bold text-gray-800 px-2" data-i18n="settings_title">Settings</h2>
             <button id="btn-close-settings" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-800 transition rounded-lg hover:bg-gray-50">
                 <span class="material-symbols-rounded">close</span>
             </button>
@@ -125,7 +125,7 @@
         <div class="p-3 space-y-6 flex-1 overflow-y-auto overflow-x-hidden">
             <div class="flex justify-between items-center">
                 <div>
-                    <label class="block text-sm font-bold text-gray-700" data-i18n="setting_stream">流式输出</label>
+                    <label class="block text-sm font-bold text-gray-700" data-i18n="setting_stream">Stream Output</label>
                 </div>
                 <label class="relative inline-flex items-center cursor-pointer">
                     <input type="checkbox" id="stream-toggle" class="sr-only peer">
@@ -134,8 +134,8 @@
             </div>
             <div>
                 <div class="flex justify-between mb-2">
-                    <label class="block text-sm font-bold text-gray-700" data-i18n="setting_api_url">API 地址</label>
-                    <button id="btn-reset-url" class="text-xs text-blue-500 hover:underline" data-i18n="setting_reset">重置为默认值</button>
+                    <label class="block text-sm font-bold text-gray-700" data-i18n="setting_api_url">API Endpoint</label>
+                    <button id="btn-reset-url" class="text-xs text-blue-500 hover:underline" data-i18n="setting_reset">Reset Default</button>
                 </div>
                 <div class="w-full overflow-hidden rounded-lg border border-gray-300 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 bg-white">
                     <textarea id="api-url" rows="1" class="w-full p-3 border-none focus:ring-0 outline-none resize-none transition text-base md:text-sm" placeholder="https://api.openai.com"></textarea>
@@ -143,15 +143,15 @@
             </div>
             <div>
                 <div class="flex justify-between mb-2">
-                    <label class="block text-sm font-bold text-gray-700">API 密钥</label>
-                    <a href="https://platform.openai.com/api-keys" target="_blank" class="text-xs text-blue-500 hover:underline" data-i18n="setting_get_key">点击这里获取密钥</a>
+                    <label class="block text-sm font-bold text-gray-700">API Key</label>
+                    <a href="https://platform.openai.com/api-keys" target="_blank" class="text-xs text-blue-500 hover:underline" data-i18n="setting_get_key">Get API Key Here</a>
                 </div>
                 <div class="w-full overflow-hidden rounded-lg border border-gray-300 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 bg-white">
                     <textarea id="api-key" rows="2" class="w-full p-3 border-none focus:ring-0 outline-none resize-none transition text-base md:text-sm" placeholder="sk-..." data-i18n-placeholder="key_placeholder"></textarea>
                 </div>
             </div>
             <div>
-                <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="setting_model">模型</label>
+                <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="setting_model">Model</label>
                 <div class="relative">
                     <select id="model-select" class="w-full min-w-0 p-3 border border-gray-300 rounded-lg appearance-none bg-white focus:ring-2 focus:ring-blue-500 outline-none transition text-base md:text-sm">
                         <option value="gpt-4o-mini" selected>gpt-4o-mini</option>
@@ -160,19 +160,19 @@
                         <option value="gpt-4.1-mini">gpt-4.1-mini</option>
                         <option value="gpt-4.1">gpt-4.1</option>
                         <option value="gpt-5.1">gpt-5.1</option>
-                        <option value="custom" data-i18n="model_custom">自定义</option>
+                        <option value="custom" data-i18n="model_custom">Custom</option>
                     </select>
                     <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                         <span class="material-symbols-rounded">expand_more</span>
                     </div>
                 </div>
                 <div id="custom-model-container" class="hidden mt-2 w-full overflow-hidden rounded-lg border border-gray-300 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 bg-white">
-                    <textarea id="custom-model-input" rows="1" class="w-full p-3 border-none focus:ring-0 outline-none resize-none transition text-base md:text-sm" placeholder="输入模型 ID" data-i18n-placeholder="custom_model_placeholder"></textarea>
+                    <textarea id="custom-model-input" rows="1" class="w-full p-3 border-none focus:ring-0 outline-none resize-none transition text-base md:text-sm" placeholder="Enter Model ID" data-i18n-placeholder="custom_model_placeholder"></textarea>
                 </div>
             </div>
             <div>
                 <div class="flex justify-between mb-2">
-                    <label class="block text-sm font-bold text-gray-700">模型温度</label>
+                    <label class="block text-sm font-bold text-gray-700">Temperature</label>
                     <span id="temp-display" class="text-xs font-mono bg-gray-100 px-2 py-0.5 rounded">0.1</span>
                 </div>
                 <input type="range" id="temp-slider" min="0" max="1" step="0.1" value="0.1" class="slider-custom w-full h-2 rounded-lg appearance-none cursor-pointer mb-6">
