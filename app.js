@@ -2,11 +2,106 @@
 const CONFIG_KEY = 'openai_translator_config_v2';
 const HISTORY_KEY = 'openai_translator_history_v2';
 const LANG_KEY = 'openai_translator_lang_prefs';
+const UI_LANG_KEY = 'openai_translator_ui_lang';
 
-// 全局控制器 & 状态
 let currentController = null; 
 let toastTimeout = null;
 let settingsDirty = false; 
+let currentLang = 'zh'; 
+
+// 翻译字典
+const translations = {
+    'zh': {
+        app_title: "LLM 翻译器",
+        lang_auto: "Auto",
+        input_placeholder: "请输入您想要翻译的文字...",
+        output_placeholder: "翻译结果将会显示在这里...",
+        btn_translate: "翻译",
+        btn_stop: "停止",
+        status_thinking: "请稍等...",
+        history_title: "历史记录",
+        history_clear: "清空所有",
+        history_empty: "暂无历史记录",
+        history_clear_confirm: "确定要清空所有历史记录吗？",
+        settings_title: "设置",
+        setting_stream: "流式输出",
+        setting_api_url: "API 地址",
+        setting_reset: "重置为默认值",
+        setting_api_key: "API 密钥",
+        setting_get_key: "点击这里获取密钥",
+        key_placeholder: "sk-...",
+        setting_model: "模型",
+        model_custom: "自定义",
+        custom_model_placeholder: "输入模型 ID",
+        setting_temp: "模型温度",
+        toast_settings_updated: "设置已更新",
+        toast_settings_unsaved: "设置未保存",
+        toast_translate_done: "翻译完成",
+        toast_translate_abort: "翻译中止",
+        alert_api_key: "请先点击右上角设置图标，配置 API 密钥",
+        copy_fail: "复制失败"
+    },
+    'zh-tw': {
+        app_title: "LLM 翻譯器",
+        lang_auto: "Auto",
+        input_placeholder: "請輸入您想要翻譯的文字...",
+        output_placeholder: "翻譯結果將會顯示在這裡...",
+        btn_translate: "翻譯",
+        btn_stop: "停止",
+        status_thinking: "請稍等...",
+        history_title: "歷史記錄",
+        history_clear: "清空所有",
+        history_empty: "暫無歷史記錄",
+        history_clear_confirm: "確定要清空所有歷史記錄嗎？",
+        settings_title: "設定",
+        setting_stream: "流式輸出",
+        setting_api_url: "API 位址",
+        setting_reset: "重設為預設值",
+        setting_api_key: "API 金鑰",
+        setting_get_key: "點擊這裡獲取金鑰",
+        key_placeholder: "sk-...",
+        setting_model: "模型",
+        model_custom: "自訂",
+        custom_model_placeholder: "輸入模型 ID",
+        setting_temp: "模型溫度",
+        toast_settings_updated: "設定已更新",
+        toast_settings_unsaved: "設定未儲存",
+        toast_translate_done: "翻譯完成",
+        toast_translate_abort: "翻譯中止",
+        alert_api_key: "請先點擊右上角設定圖標，配置 API 金鑰",
+        copy_fail: "複製失敗"
+    },
+    'en': {
+        app_title: "LLM Translator",
+        lang_auto: "Auto",
+        input_placeholder: "Enter text to translate...",
+        output_placeholder: "Translation will appear here...",
+        btn_translate: "Translate",
+        btn_stop: "Stop",
+        status_thinking: "Thinking...",
+        history_title: "History",
+        history_clear: "Clear All",
+        history_empty: "No history yet",
+        history_clear_confirm: "Are you sure you want to clear all history?",
+        settings_title: "Settings",
+        setting_stream: "Stream Output",
+        setting_api_url: "API Endpoint",
+        setting_reset: "Reset Default",
+        setting_api_key: "API Key",
+        setting_get_key: "Get API Key Here",
+        key_placeholder: "sk-...",
+        setting_model: "Model",
+        model_custom: "Custom",
+        custom_model_placeholder: "Enter Model ID",
+        setting_temp: "Temperature",
+        toast_settings_updated: "Settings Saved",
+        toast_settings_unsaved: "Unsaved Changes",
+        toast_translate_done: "Translation Done",
+        toast_translate_abort: "Translation Aborted",
+        alert_api_key: "Please configure API Key in settings first",
+        copy_fail: "Copy Failed"
+    }
+};
 
 // 默认配置
 let config = {
@@ -17,7 +112,7 @@ let config = {
     stream: true
 };
 
-// 语言映射
+// 语言映射 (用于 Prompt)
 const langMap = {
     'zh-CN': 'Simplified Chinese',
     'zh-TW': 'Traditional Chinese',
@@ -35,6 +130,7 @@ const langMap = {
 document.addEventListener('DOMContentLoaded', () => {
     marked.setOptions({ breaks: true });
 
+    initLanguage(); 
     loadConfig();
     loadLastUsedLangs(); 
     loadHistory();
@@ -50,9 +146,79 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 300);
 });
 
+// ================= 语言管理 =================
+function initLanguage() {
+    const savedLang = localStorage.getItem(UI_LANG_KEY);
+    if (savedLang) {
+        currentLang = savedLang;
+    } else {
+        const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
+        if (browserLang === 'zh-tw' || browserLang === 'zh-hk') {
+            currentLang = 'zh-tw';
+        } else if (browserLang.startsWith('zh')) {
+            currentLang = 'zh';
+        } else {
+            currentLang = 'en';
+        }
+    }
+    applyLanguage(currentLang);
+}
+
+function changeLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem(UI_LANG_KEY, currentLang);
+    applyLanguage(currentLang);
+    document.getElementById('lang-menu').classList.add('hidden');
+}
+
+function toggleLangMenu() {
+    const menu = document.getElementById('lang-menu');
+    menu.classList.toggle('hidden');
+}
+
+function applyLanguage(lang) {
+    const t = translations[lang];
+    
+    document.title = t.app_title;
+    
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key]) el.innerText = t[key];
+    });
+
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (t[key]) el.placeholder = t[key];
+    });
+
+    if (!currentController) {
+        updateBtnState(false);
+    } else {
+        updateBtnState(true);
+    }
+}
+
+function getTrans(key) {
+    return translations[currentLang][key] || key;
+}
+
 // ================= 事件监听 =================
 function setupEventListeners() {
     document.getElementById('btn-settings').addEventListener('click', openSettings);
+    
+    const btnLang = document.getElementById('btn-lang');
+    const langMenu = document.getElementById('lang-menu');
+    btnLang.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleLangMenu();
+    });
+    
+    document.addEventListener('click', (e) => {
+        if (!btnLang.contains(e.target) && !langMenu.contains(e.target)) {
+            langMenu.classList.add('hidden');
+        }
+    });
+
     document.getElementById('tab-translate').addEventListener('click', () => switchTab('translate'));
     document.getElementById('tab-history').addEventListener('click', () => switchTab('history'));
     
@@ -86,8 +252,7 @@ function setupEventListeners() {
         updateSliderBackground(e.target);
     });
 
-    // 监听设置变更
-    const settingInputs = ['api-url', 'api-key', 'stream-toggle', 'temp-slider', 'custom-model-input']; // 增加 custom-model-input
+    const settingInputs = ['api-url', 'api-key', 'model-select', 'stream-toggle', 'temp-slider', 'custom-model-input'];
     settingInputs.forEach(id => {
         const el = document.getElementById(id);
         if (el) {
@@ -96,7 +261,6 @@ function setupEventListeners() {
         }
     });
 
-    // ★★★ 监听模型选择，切换自定义输入框 ★★★
     const modelSelect = document.getElementById('model-select');
     modelSelect.addEventListener('change', (e) => {
         settingsDirty = true;
@@ -104,7 +268,6 @@ function setupEventListeners() {
     });
 }
 
-// ================= 模型选择逻辑 (新增) =================
 function toggleCustomModelInput() {
     const select = document.getElementById('model-select');
     const customContainer = document.getElementById('custom-model-container');
@@ -119,11 +282,11 @@ function toggleCustomModelInput() {
 function updateBtnState(isTranslating) {
     const btn = document.getElementById('btn-translate');
     if (isTranslating) {
-        btn.innerHTML = '<i class="fas fa-stop"></i><span class="hidden md:inline ml-2">停止</span>';
+        btn.innerHTML = `<i class="fas fa-stop mr-0 md:mr-2"></i><span class="hidden md:inline ml-2">${getTrans('btn_stop')}</span>`;
         btn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
         btn.classList.add('bg-red-500', 'hover:bg-red-600');
     } else {
-        btn.innerHTML = '<i class="fas fa-paper-plane"></i><span class="hidden md:inline ml-2">翻译</span>';
+        btn.innerHTML = `<i class="fas fa-paper-plane mr-0 md:mr-2"></i><span class="hidden md:inline ml-2">${getTrans('btn_translate')}</span>`;
         btn.classList.remove('bg-red-500', 'hover:bg-red-600');
         btn.classList.add('bg-blue-600', 'hover:bg-blue-700');
     }
@@ -209,7 +372,7 @@ function clearInput() {
     toggleClearButton();
 
     const outputDiv = document.getElementById('output-text');
-    outputDiv.innerHTML = '<span class="text-gray-400">翻译结果将会显示在这里...</span>';
+    outputDiv.innerHTML = `<span class="text-gray-400">${getTrans('output_placeholder')}</span>`;
 
     document.getElementById('btn-copy-output').classList.add('hidden');
 
@@ -235,7 +398,7 @@ function toggleClearButton() {
 
 async function copyOutput() {
     const outputText = document.getElementById('output-text').innerText;
-    if (outputText.includes('翻译结果将会显示在这里') || !outputText.trim()) return;
+    if (outputText.includes('...') || !outputText.trim()) return;
     
     try {
         await navigator.clipboard.writeText(outputText);
@@ -247,7 +410,7 @@ async function copyOutput() {
             btn.innerHTML = originalIcon;
         }, 1500);
     } catch (err) {
-        alert('复制失败');
+        showToast(getTrans('copy_fail'), 'error');
     }
 }
 
@@ -291,11 +454,9 @@ function loadConfig() {
     document.getElementById('temp-display').innerText = config.temperature;
     document.getElementById('stream-toggle').checked = config.stream;
     
-    // ★★★ 修复：加载模型逻辑 (区分预定义和自定义) ★★★
     const modelSelect = document.getElementById('model-select');
     const customInput = document.getElementById('custom-model-input');
     
-    // 检查 saved model 是否在 select 的选项中
     const isPredefined = Array.from(modelSelect.options).some(opt => opt.value === config.model);
     
     if (isPredefined) {
@@ -305,7 +466,7 @@ function loadConfig() {
         customInput.value = config.model;
     }
     
-    toggleCustomModelInput(); // 根据加载的值切换显示状态
+    toggleCustomModelInput();
     updateSliderBackground(document.getElementById('temp-slider'));
 }
 
@@ -314,10 +475,9 @@ function saveConfigFromUI() {
     config.apiUrl = url.replace(/\/+$/, ""); 
     config.apiKey = document.getElementById('api-key').value.trim();
     
-    // ★★★ 修复：保存模型逻辑 ★★★
     const selectVal = document.getElementById('model-select').value;
     if (selectVal === 'custom') {
-        config.model = document.getElementById('custom-model-input').value.trim() || 'gpt-4o-mini'; // 如果空则回退
+        config.model = document.getElementById('custom-model-input').value.trim() || 'gpt-4o-mini';
     } else {
         config.model = selectVal;
     }
@@ -339,7 +499,7 @@ function openSettings() {
 function closeSettings() {
     if (settingsDirty) {
         saveConfigFromUI();
-        showToast("设置已更新", "success");
+        showToast(getTrans('toast_settings_updated'), "success");
         settingsDirty = false;
     }
 
@@ -364,7 +524,7 @@ async function doTranslate() {
     }
     
     if (!config.apiKey) {
-        alert('请先点击右上角设置图标，配置 API 密钥');
+        alert(getTrans('alert_api_key'));
         openSettings();
         return;
     }
@@ -479,17 +639,17 @@ Translate the above text enclosed with <translate_input> into ${toLang} without 
         }
 
         addToHistory(sourceVal, targetVal, inputText, fullText);
-        showToast("翻译完成", "success");
+        showToast(getTrans('toast_translate_done'), "success");
 
     } catch (error) {
         if (error.name === 'AbortError') {
-            showToast("翻译中止", "error");
+            showToast(getTrans('toast_translate_abort'), "error");
             return; 
         }
         
         loading.classList.add('hidden');
         outputDiv.innerHTML = `<div class="text-red-500 bg-red-50 p-3 rounded border border-red-100">
-            <i class="fas fa-exclamation-circle"></i> 错误: ${error.message}
+            <i class="fas fa-exclamation-circle"></i> Error: ${error.message}
         </div>`;
         console.error(error);
     } finally {
@@ -530,7 +690,7 @@ function addToHistory(from, to, original, translated) {
 }
 
 function clearHistory() {
-    if(confirm("确定要清空所有历史记录吗？")) {
+    if(confirm(getTrans('history_clear_confirm'))) {
         localStorage.removeItem(HISTORY_KEY);
         renderHistoryList([]);
     }
@@ -544,7 +704,7 @@ function renderHistoryList(history) {
         container.innerHTML = `
             <div class="flex flex-col items-center justify-center h-64 text-gray-300">
                 <i class="fas fa-history text-4xl mb-2"></i>
-                <p>暂无历史记录</p>
+                <p>${getTrans('history_empty')}</p>
             </div>`;
         return;
     }
