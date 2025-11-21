@@ -6,6 +6,7 @@ const UI_LANG_KEY = 'openai_translator_ui_lang';
 
 let currentController = null; 
 let toastTimeout = null;
+let unsavedDebounce = null; // 防抖定时器引用
 let settingsDirty = false; 
 let currentLang = 'zh'; 
 
@@ -13,7 +14,6 @@ let currentLang = 'zh';
 const translations = {
     'zh': {
         app_title: "LLM 翻译器",
-        lang_auto: "Auto",
         input_placeholder: "请输入您想要翻译的文字...",
         output_placeholder: "翻译结果将会显示在这里...",
         btn_translate: "翻译",
@@ -43,7 +43,6 @@ const translations = {
     },
     'zh-tw': {
         app_title: "LLM 翻譯器",
-        lang_auto: "Auto",
         input_placeholder: "請輸入您想要翻譯的文字...",
         output_placeholder: "翻譯結果將會顯示在這裡...",
         btn_translate: "翻譯",
@@ -73,12 +72,10 @@ const translations = {
     },
     'en': {
         app_title: "LLM Translator",
-        lang_auto: "Auto",
         input_placeholder: "Enter text to translate...",
         output_placeholder: "Translation will appear here...",
         btn_translate: "Translate",
         btn_stop: "Stop",
-        // ★★★ 修改：改为 Please wait... 以对应中文 ★★★
         status_thinking: "Please wait...",
         history_title: "History",
         history_clear: "Clear All",
@@ -113,7 +110,7 @@ let config = {
     stream: true
 };
 
-// 语言映射 (用于 Prompt)
+// 语言映射
 const langMap = {
     'zh-CN': 'Simplified Chinese',
     'zh-TW': 'Traditional Chinese',
@@ -257,8 +254,14 @@ function setupEventListeners() {
     settingInputs.forEach(id => {
         const el = document.getElementById(id);
         if (el) {
-            el.addEventListener('input', () => { settingsDirty = true; });
-            el.addEventListener('change', () => { settingsDirty = true; });
+            el.addEventListener('input', () => { 
+                settingsDirty = true;
+                triggerUnsavedToast(); 
+            });
+            el.addEventListener('change', () => { 
+                settingsDirty = true;
+                triggerUnsavedToast(); 
+            });
         }
     });
 
@@ -267,6 +270,17 @@ function setupEventListeners() {
         settingsDirty = true;
         toggleCustomModelInput();
     });
+}
+
+// 新增：防抖触发未保存提示
+function triggerUnsavedToast() {
+    if (unsavedDebounce) clearTimeout(unsavedDebounce);
+    unsavedDebounce = setTimeout(() => {
+        // 仅在设置面板打开时提示
+        if(!document.getElementById('settings-panel').classList.contains('translate-x-full')) {
+            // showToast(getTrans('toast_settings_unsaved'), "error"); // 可选：如果你希望在修改时就提示，取消注释
+        }
+    }, 500);
 }
 
 function toggleCustomModelInput() {
@@ -293,30 +307,40 @@ function updateBtnState(isTranslating) {
     }
 }
 
-// ================= Toast 逻辑 =================
+// ================= Toast 逻辑 (完全重构) =================
 function showToast(message, type) {
     const toast = document.getElementById('toast-notification');
     const icon = document.getElementById('toast-icon');
     const msg = document.getElementById('toast-message');
     
+    // 1. 清除现有的定时器，防止过早隐藏
     if (toastTimeout) clearTimeout(toastTimeout);
     
+    // 2. 更新内容
     msg.innerText = message;
     
-    toast.className = "fixed top-6 left-1/2 transform -translate-x-1/2 z-[60] px-4 py-2 rounded-lg shadow-lg font-bold text-sm transition-all duration-300 flex items-center gap-2 pointer-events-none";
+    // 3. 清理并应用颜色样式
+    toast.classList.remove(
+        'bg-green-100', 'text-green-600', 'border-green-200',
+        'bg-red-100', 'text-red-600', 'border-red-200',
+        'border'
+    );
     
     if (type === 'success') {
         toast.classList.add('bg-green-100', 'text-green-600', 'border', 'border-green-200');
         icon.className = "fas fa-check-circle";
-    } else if (type === 'error') {
+    } else {
         toast.classList.add('bg-red-100', 'text-red-600', 'border', 'border-red-200');
         icon.className = "fas fa-exclamation-circle";
     }
     
-    requestAnimationFrame(() => {
-        toast.classList.remove('opacity-0', '-translate-y-10');
-    });
+    // 4. 显示 (移除隐藏类)
+    toast.classList.remove('opacity-0', '-translate-y-10');
     
+    // 5. 强制重绘 (Reflow)，确保 CSS 过渡能再次触发 (虽然这里主要是保持显示，但如果是重新触发动画会有用)
+    void toast.offsetWidth; 
+
+    // 6. 设置新的隐藏定时器 (2秒)
     toastTimeout = setTimeout(() => {
         toast.classList.add('opacity-0', '-translate-y-10');
     }, 2000);
@@ -498,6 +522,9 @@ function openSettings() {
 }
 
 function closeSettings() {
+    // ★★★ 修复：清除防抖定时器，防止“未保存”提示在“已更新”后出现 ★★★
+    if (unsavedDebounce) clearTimeout(unsavedDebounce);
+
     if (settingsDirty) {
         saveConfigFromUI();
         showToast(getTrans('toast_settings_updated'), "success");
