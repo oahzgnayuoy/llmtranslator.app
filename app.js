@@ -86,7 +86,8 @@ function setupEventListeners() {
         updateSliderBackground(e.target);
     });
 
-    const settingInputs = ['api-url', 'api-key', 'model-select', 'stream-toggle', 'temp-slider'];
+    // 监听设置变更
+    const settingInputs = ['api-url', 'api-key', 'stream-toggle', 'temp-slider', 'custom-model-input']; // 增加 custom-model-input
     settingInputs.forEach(id => {
         const el = document.getElementById(id);
         if (el) {
@@ -94,18 +95,34 @@ function setupEventListeners() {
             el.addEventListener('change', () => { settingsDirty = true; });
         }
     });
+
+    // ★★★ 监听模型选择，切换自定义输入框 ★★★
+    const modelSelect = document.getElementById('model-select');
+    modelSelect.addEventListener('change', (e) => {
+        settingsDirty = true;
+        toggleCustomModelInput();
+    });
 }
 
-// ================= UI 状态管理 (更新版) =================
+// ================= 模型选择逻辑 (新增) =================
+function toggleCustomModelInput() {
+    const select = document.getElementById('model-select');
+    const customContainer = document.getElementById('custom-model-container');
+    if (select.value === 'custom') {
+        customContainer.classList.remove('hidden');
+    } else {
+        customContainer.classList.add('hidden');
+    }
+}
+
+// ================= UI 状态管理 =================
 function updateBtnState(isTranslating) {
     const btn = document.getElementById('btn-translate');
     if (isTranslating) {
-        // ★★★ 停止状态：手机只显图标，电脑显文字 ★★★
         btn.innerHTML = '<i class="fas fa-stop"></i><span class="hidden md:inline ml-2">停止</span>';
         btn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
         btn.classList.add('bg-red-500', 'hover:bg-red-600');
     } else {
-        // ★★★ 翻译状态：手机只显图标，电脑显文字 ★★★
         btn.innerHTML = '<i class="fas fa-paper-plane"></i><span class="hidden md:inline ml-2">翻译</span>';
         btn.classList.remove('bg-red-500', 'hover:bg-red-600');
         btn.classList.add('bg-blue-600', 'hover:bg-blue-700');
@@ -270,11 +287,25 @@ function loadConfig() {
     
     document.getElementById('api-url').value = config.apiUrl;
     document.getElementById('api-key').value = config.apiKey;
-    document.getElementById('model-select').value = config.model;
     document.getElementById('temp-slider').value = config.temperature;
     document.getElementById('temp-display').innerText = config.temperature;
     document.getElementById('stream-toggle').checked = config.stream;
     
+    // ★★★ 修复：加载模型逻辑 (区分预定义和自定义) ★★★
+    const modelSelect = document.getElementById('model-select');
+    const customInput = document.getElementById('custom-model-input');
+    
+    // 检查 saved model 是否在 select 的选项中
+    const isPredefined = Array.from(modelSelect.options).some(opt => opt.value === config.model);
+    
+    if (isPredefined) {
+        modelSelect.value = config.model;
+    } else {
+        modelSelect.value = 'custom';
+        customInput.value = config.model;
+    }
+    
+    toggleCustomModelInput(); // 根据加载的值切换显示状态
     updateSliderBackground(document.getElementById('temp-slider'));
 }
 
@@ -282,7 +313,15 @@ function saveConfigFromUI() {
     let url = document.getElementById('api-url').value.trim();
     config.apiUrl = url.replace(/\/+$/, ""); 
     config.apiKey = document.getElementById('api-key').value.trim();
-    config.model = document.getElementById('model-select').value;
+    
+    // ★★★ 修复：保存模型逻辑 ★★★
+    const selectVal = document.getElementById('model-select').value;
+    if (selectVal === 'custom') {
+        config.model = document.getElementById('custom-model-input').value.trim() || 'gpt-4o-mini'; // 如果空则回退
+    } else {
+        config.model = selectVal;
+    }
+    
     config.temperature = parseFloat(document.getElementById('temp-slider').value);
     config.stream = document.getElementById('stream-toggle').checked;
     
