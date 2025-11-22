@@ -6,40 +6,59 @@
     <title>LLM Translator</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#ffffff">
+    <meta name="theme-color" content="#ffffff" id="theme-color-meta">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="icon-192.png">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        // Material Design Dark Colors
+                        dark: {
+                            bg: '#121212',
+                            surface: '#1e1e1e',
+                            surface2: '#2c2c2c',
+                            border: '#333333'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="bg-gray-50 text-gray-800 h-[100dvh] flex flex-col overflow-hidden">
-    <header class="flex justify-between items-center p-1.5 border-b bg-white shadow-sm flex-shrink-0">
-        <h1 class="text-lg font-bold flex items-center gap-2 text-gray-800 px-2">
+<body class="bg-gray-50 text-gray-800 dark:bg-dark-bg dark:text-gray-100 h-[100dvh] flex flex-col overflow-hidden transition-colors duration-200">
+    <header class="flex justify-between items-center p-1.5 border-b bg-white shadow-sm flex-shrink-0 dark:bg-dark-surface dark:border-dark-border transition-colors">
+        <h1 class="text-lg font-bold flex items-center gap-2 text-gray-800 dark:text-white px-2">
             <span data-i18n="app_title">LLM Translator</span>
         </h1>
         <div class="flex gap-1 items-center">
             <div class="relative">
-                <button id="btn-lang" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-gray-900 transition rounded-lg hover:bg-gray-50" title="Change Language">
+                <button id="btn-lang" class="w-8 h-8 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition rounded-lg hover:bg-gray-50 dark:hover:bg-white/10" title="Change Language">
                     <span class="material-symbols-rounded">language</span>
                 </button>
-                <div id="lang-menu" class="hidden absolute right-0 top-full mt-1 w-32 bg-white border border-gray-200 rounded-lg shadow-lg z-50 overflow-hidden py-1">
-                    <button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition" onclick="changeLanguage('en')">English</button>
-                    <button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition" onclick="changeLanguage('zh')">简体中文</button>
-                    <button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 transition" onclick="changeLanguage('zh-tw')">正體中文</button>
+                <div id="lang-menu" class="hidden absolute right-0 top-full mt-1 w-32 bg-white dark:bg-dark-surface2 border border-gray-200 dark:border-dark-border rounded-lg shadow-lg z-50 overflow-hidden py-1">
+                    <button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-white/5 dark:text-gray-200 transition" onclick="changeLanguage('en')">English</button>
+                    <button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-white/5 dark:text-gray-200 transition" onclick="changeLanguage('zh')">简体中文</button>
+                    <button class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 dark:hover:bg-white/5 dark:text-gray-200 transition" onclick="changeLanguage('zh-tw')">正體中文</button>
                 </div>
             </div>
-            <button id="btn-settings" class="w-8 h-8 flex items-center justify-center text-gray-600 hover:text-gray-900 transition rounded-lg hover:bg-gray-50">
+            <button id="btn-settings" class="w-8 h-8 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition rounded-lg hover:bg-gray-50 dark:hover:bg-white/10">
                 <span class="material-symbols-rounded">settings</span>
             </button>
         </div>
     </header>
+
     <main id="view-translate" class="flex-1 flex flex-col md:flex-row overflow-hidden relative">
-        <div class="flex-1 flex flex-col p-1.5 md:border-r border-gray-200 bg-white min-h-0">
+        <div class="flex-1 flex flex-col p-1.5 md:border-r border-gray-200 dark:border-dark-border bg-white dark:bg-dark-surface min-h-0 transition-colors">
             <div class="flex justify-between items-center mb-2 px-2 gap-2 flex-shrink-0">
-                <select id="source-lang" class="flex-1 w-full h-8 bg-transparent border-none outline-none cursor-pointer font-bold text-gray-700 hover:text-gray-900 transition text-center text-sm">
+                <select id="source-lang" class="flex-1 w-full h-8 bg-transparent border-none outline-none cursor-pointer font-bold text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white transition text-center text-sm [&>option]:bg-white [&>option]:text-gray-900 dark:[&>option]:bg-dark-surface dark:[&>option]:text-gray-200">
                     <option value="Auto" data-i18n="lang_auto">Auto</option>
                     <option value="zh-CN">简体中文</option>
                     <option value="zh-TW">正體中文</option>
@@ -51,10 +70,10 @@
                     <option value="es">Español</option>
                     <option value="ru">Русский</option>
                 </select>
-                <button id="btn-swap-lang" class="h-8 w-8 flex items-center justify-center text-gray-400 hover:text-gray-600 transition text-sm" title="Swap">
+                <button id="btn-swap-lang" class="h-8 w-8 flex items-center justify-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition text-sm" title="Swap">
                     <span class="material-symbols-rounded">swap_horiz</span>
                 </button>
-                <select id="target-lang" class="flex-1 w-full h-8 bg-transparent border-none outline-none cursor-pointer font-bold text-gray-700 hover:text-gray-900 transition text-center text-sm">
+                <select id="target-lang" class="flex-1 w-full h-8 bg-transparent border-none outline-none cursor-pointer font-bold text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white transition text-center text-sm [&>option]:bg-white [&>option]:text-gray-900 dark:[&>option]:bg-dark-surface dark:[&>option]:text-gray-200">
                     <option value="Auto" data-i18n="lang_auto">Auto</option>
                     <option value="zh-CN">简体中文</option>
                     <option value="zh-TW">正體中文</option>
@@ -67,93 +86,114 @@
                     <option value="ru">Русский</option>
                 </select>
             </div>
-            <div class="flex-1 relative border border-gray-300 rounded-xl shadow-inner bg-gray-50 overflow-hidden group focus-within:border-blue-400 focus-within:ring-1 focus-within:ring-blue-400 transition-all">
-                <textarea id="input-text" class="w-full h-full p-3 pr-10 resize-none outline-none bg-transparent text-base leading-relaxed scrollbar-custom" placeholder="Enter text to translate..." data-i18n-placeholder="input_placeholder"></textarea>
-                <button id="btn-clear-input" class="absolute bottom-3 right-3 text-gray-400 hover:text-red-500 bg-white rounded-full w-8 h-8 shadow-sm border border-gray-200 hidden group-hover:flex items-center justify-center transition" title="Clear">
+            <div class="flex-1 relative border border-gray-300 dark:border-dark-border rounded-xl shadow-inner bg-gray-50 dark:bg-dark-bg overflow-hidden group focus-within:border-blue-400 dark:focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-400 dark:focus-within:ring-blue-500 transition-all">
+                <textarea id="input-text" class="w-full h-full p-3 pr-10 resize-none outline-none bg-transparent text-base leading-relaxed scrollbar-custom dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500" placeholder="Enter text to translate..." data-i18n-placeholder="input_placeholder"></textarea>
+                <button id="btn-clear-input" class="absolute bottom-3 right-3 text-gray-400 hover:text-red-500 bg-white dark:bg-dark-surface2 dark:border-dark-border dark:hover:text-red-400 rounded-full w-8 h-8 shadow-sm border border-gray-200 hidden group-hover:flex items-center justify-center transition" title="Clear">
                     <span class="material-symbols-rounded">delete_outline</span>
                 </button>
             </div>
         </div>
-        <div class="flex-1 flex flex-col px-1.5 pb-1.5 pt-0 md:p-1.5 bg-gray-50 min-h-0 relative">
+
+        <div class="flex-1 flex flex-col px-1.5 pb-1.5 pt-0 md:p-1.5 bg-gray-50 dark:bg-dark-bg min-h-0 relative transition-colors">
             <div class="flex justify-center -mt-5 -mb-5 md:mt-0 md:mb-2 md:block flex-shrink-0 relative z-10">
-                <button id="btn-translate" class="w-10 h-10 md:w-full md:h-8 flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white rounded-full md:rounded-lg font-bold shadow-xl md:shadow-md hover:shadow-lg transition transform active:scale-[0.99] text-sm p-0 md:px-4">
+                <button id="btn-translate" class="w-10 h-10 md:w-full md:h-8 flex items-center justify-center bg-blue-600 dark:bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-500 text-white rounded-full md:rounded-lg font-bold shadow-xl md:shadow-md hover:shadow-lg transition transform active:scale-[0.99] text-sm p-0 md:px-4">
                     <span class="material-symbols-rounded md:mr-1">chat_paste_go</span>
                     <span class="hidden md:inline" data-i18n="btn_translate">Translate</span>
                 </button>
             </div>
-            <div class="flex-1 relative border border-gray-200 rounded-xl bg-white shadow-sm overflow-hidden group mt-1.5 md:mt-0">
-                <div id="output-text" class="w-full h-full p-3 pb-12 text-base text-gray-700 prose max-w-none overflow-y-auto scrollbar-custom leading-relaxed">
-                    <span class="text-gray-400" data-i18n="output_placeholder">Translation will appear here...</span>
+            <div class="flex-1 relative border border-gray-200 dark:border-dark-border rounded-xl bg-white dark:bg-dark-surface shadow-sm overflow-hidden group mt-1.5 md:mt-0 transition-colors">
+                <div id="output-text" class="w-full h-full p-3 pb-12 text-base text-gray-700 dark:text-gray-200 prose dark:prose-invert max-w-none overflow-y-auto scrollbar-custom leading-relaxed">
+                    <span class="text-gray-400 dark:text-gray-500" data-i18n="output_placeholder">Translation will appear here...</span>
                 </div>
-                <div id="loading-indicator" class="hidden absolute top-4 left-4 bg-white/80 backdrop-blur px-3 py-1 rounded-full border border-blue-100 text-blue-600 text-sm font-medium shadow-sm flex items-center gap-2">
+                <div id="loading-indicator" class="hidden absolute top-4 left-4 bg-white/80 dark:bg-dark-surface2/90 backdrop-blur px-3 py-1 rounded-full border border-blue-100 dark:border-gray-700 text-blue-600 dark:text-blue-400 text-sm font-medium shadow-sm flex items-center gap-2">
                     <span class="material-symbols-rounded animate-spin">sync</span>
                     <span data-i18n="status_thinking">Please wait...</span>
                 </div>
-                <button id="btn-copy-output" class="hidden absolute bottom-3 right-3 text-gray-400 hover:text-green-600 bg-gray-50 hover:bg-white rounded-full w-8 h-8 shadow-sm border border-gray-200 flex items-center justify-center transition" title="Copy">
+                <button id="btn-copy-output" class="hidden absolute bottom-3 right-3 text-gray-400 hover:text-green-600 dark:hover:text-green-400 bg-gray-50 hover:bg-white dark:bg-dark-surface2 dark:hover:bg-dark-surface rounded-full w-8 h-8 shadow-sm border border-gray-200 dark:border-dark-border flex items-center justify-center transition" title="Copy">
                     <span class="material-symbols-rounded">content_copy</span>
                 </button>
             </div>
         </div>
     </main>
-    <main id="view-history" class="flex-1 flex-col overflow-hidden hidden bg-gray-50 p-1.5">
+
+    <main id="view-history" class="flex-1 flex-col overflow-hidden hidden bg-gray-50 dark:bg-dark-bg p-1.5 transition-colors">
         <div class="flex justify-between items-center mb-2 px-2 gap-2 flex-shrink-0 h-8">
-            <h2 class="text-base md:text-sm font-bold text-gray-800" data-i18n="history_title">History</h2>
-            <button id="btn-clear-history" class="text-red-500 text-xs border border-red-200 px-2 py-1 rounded hover:bg-red-50 transition" data-i18n="history_clear">Clear All</button>
+            <h2 class="text-base md:text-sm font-bold text-gray-800 dark:text-gray-200" data-i18n="history_title">History</h2>
+            <button id="btn-clear-history" class="text-red-500 dark:text-red-400 text-xs border border-red-200 dark:border-red-900/50 px-2 py-1 rounded hover:bg-red-50 dark:hover:bg-red-900/20 transition" data-i18n="history_clear">Clear All</button>
         </div>
         <div id="history-list" class="flex-1 overflow-y-auto space-y-3 scrollbar-custom"></div>
     </main>
-    <footer class="flex w-full p-1.5 border-t bg-white z-10 flex-shrink-0">
+
+    <footer class="flex w-full p-1.5 border-t border-gray-200 dark:border-dark-border bg-white dark:bg-dark-surface z-10 flex-shrink-0 transition-colors">
         <div class="flex-1 flex justify-center items-center">
-            <button id="tab-translate" class="text-blue-600 flex flex-col items-center justify-center gap-1 w-16 h-8 hover:bg-gray-50 rounded-lg transition">
+            <button id="tab-translate" class="text-blue-600 dark:text-blue-400 flex flex-col items-center justify-center gap-1 w-16 h-8 hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg transition">
                 <span class="material-symbols-rounded">translate</span>
             </button>
         </div>
         <div class="flex-1 flex justify-center items-center">
-            <button id="tab-history" class="text-gray-400 flex flex-col items-center justify-center gap-1 w-16 h-8 hover:bg-gray-50 rounded-lg transition">
+            <button id="tab-history" class="text-gray-400 flex flex-col items-center justify-center gap-1 w-16 h-8 hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg transition">
                 <span class="material-symbols-rounded">history</span>
             </button>
         </div>
     </footer>
-    <div id="settings-overlay" class="fixed inset-0 bg-black bg-opacity-30 z-40 hidden backdrop-blur-sm transition-opacity"></div>
-    <div id="settings-panel" class="fixed top-0 right-0 h-full w-full md:w-80 max-w-full bg-white shadow-2xl transform translate-x-full transition-transform duration-300 z-50 flex flex-col overflow-hidden">
-        <div class="flex justify-between items-center p-1.5 border-b flex-shrink-0">
-            <h2 class="text-lg font-bold text-gray-800 px-2" data-i18n="settings_title">Settings</h2>
-            <button id="btn-close-settings" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-800 transition rounded-lg hover:bg-gray-50">
+
+    <div id="settings-overlay" class="fixed inset-0 bg-black bg-opacity-30 dark:bg-opacity-60 z-40 hidden backdrop-blur-sm transition-opacity"></div>
+    <div id="settings-panel" class="fixed top-0 right-0 h-full w-full md:w-80 max-w-full bg-white dark:bg-dark-surface shadow-2xl transform translate-x-full transition-transform duration-300 z-50 flex flex-col overflow-hidden border-l dark:border-dark-border">
+        <div class="flex justify-between items-center p-1.5 border-b border-gray-200 dark:border-dark-border flex-shrink-0">
+            <h2 class="text-lg font-bold text-gray-800 dark:text-white px-2" data-i18n="settings_title">Settings</h2>
+            <button id="btn-close-settings" class="w-8 h-8 flex items-center justify-center text-gray-400 hover:text-gray-800 dark:hover:text-white transition rounded-lg hover:bg-gray-50 dark:hover:bg-white/10">
                 <span class="material-symbols-rounded">close</span>
             </button>
         </div>
-        <div class="p-3 space-y-6 flex-1 overflow-y-auto overflow-x-hidden">
+        <div class="p-3 space-y-6 flex-1 overflow-y-auto overflow-x-hidden text-gray-700 dark:text-gray-200">
+            <div>
+                <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2" data-i18n="setting_theme">Theme</label>
+                <div class="relative">
+                    <select id="theme-select" class="w-full min-w-0 p-3 border border-gray-300 dark:border-dark-border rounded-lg appearance-none bg-white dark:bg-dark-surface2 focus:ring-2 focus:ring-blue-500 outline-none transition text-base md:text-sm text-gray-900 dark:text-gray-100">
+                        <option value="auto" data-i18n="theme_auto">System (Auto)</option>
+                        <option value="light" data-i18n="theme_light">Light</option>
+                        <option value="dark" data-i18n="theme_dark">Dark</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-gray-400">
+                        <span class="material-symbols-rounded">expand_more</span>
+                    </div>
+                </div>
+            </div>
+
             <div class="flex justify-between items-center">
                 <div>
-                    <label class="block text-sm font-bold text-gray-700" data-i18n="setting_stream">Stream Output</label>
+                    <label class="block text-sm font-bold text-gray-700 dark:text-gray-300" data-i18n="setting_stream">Stream Output</label>
                 </div>
                 <label class="relative inline-flex items-center cursor-pointer">
                     <input type="checkbox" id="stream-toggle" class="sr-only peer">
-                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600 shadow-inner"></div>
+                    <div class="w-11 h-6 bg-gray-200 dark:bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600 shadow-inner"></div>
                 </label>
             </div>
+            
             <div>
                 <div class="flex justify-between mb-2">
-                    <label class="block text-sm font-bold text-gray-700" data-i18n="setting_api_url">API Endpoint</label>
-                    <button id="btn-reset-url" class="text-xs text-blue-500 hover:underline" data-i18n="setting_reset">Reset Default</button>
+                    <label class="block text-sm font-bold text-gray-700 dark:text-gray-300" data-i18n="setting_api_url">API Endpoint</label>
+                    <button id="btn-reset-url" class="text-xs text-blue-500 dark:text-blue-400 hover:underline" data-i18n="setting_reset">Reset Default</button>
                 </div>
-                <div class="w-full overflow-hidden rounded-lg border border-gray-300 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 bg-white">
-                    <textarea id="api-url" rows="1" class="w-full p-3 border-none focus:ring-0 outline-none resize-none transition text-base md:text-sm" placeholder="https://api.openai.com"></textarea>
+                <div class="w-full overflow-hidden rounded-lg border border-gray-300 dark:border-dark-border focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 bg-white dark:bg-dark-surface2">
+                    <textarea id="api-url" rows="1" class="w-full p-3 border-none focus:ring-0 outline-none resize-none transition text-base md:text-sm bg-transparent dark:text-gray-100" placeholder="https://api.openai.com"></textarea>
                 </div>
             </div>
+
             <div>
                 <div class="flex justify-between mb-2">
-                    <label class="block text-sm font-bold text-gray-700" data-i18n="setting_api_key">API Key</label>
-                    <a href="https://platform.openai.com/api-keys" target="_blank" class="text-xs text-blue-500 hover:underline" data-i18n="setting_get_key">Get API Key Here</a>
+                    <label class="block text-sm font-bold text-gray-700 dark:text-gray-300" data-i18n="setting_api_key">API Key</label>
+                    <a href="https://platform.openai.com/api-keys" target="_blank" class="text-xs text-blue-500 dark:text-blue-400 hover:underline" data-i18n="setting_get_key">Get API Key Here</a>
                 </div>
-                <div class="w-full overflow-hidden rounded-lg border border-gray-300 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 bg-white">
-                    <textarea id="api-key" rows="2" class="w-full p-3 border-none focus:ring-0 outline-none resize-none transition text-base md:text-sm" placeholder="sk-..." data-i18n-placeholder="key_placeholder"></textarea>
+                <div class="w-full overflow-hidden rounded-lg border border-gray-300 dark:border-dark-border focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 bg-white dark:bg-dark-surface2">
+                    <textarea id="api-key" rows="2" class="w-full p-3 border-none focus:ring-0 outline-none resize-none transition text-base md:text-sm bg-transparent dark:text-gray-100" placeholder="sk-..." data-i18n-placeholder="key_placeholder"></textarea>
                 </div>
             </div>
+
             <div>
-                <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="setting_model">Model</label>
+                <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2" data-i18n="setting_model">Model</label>
                 <div class="relative">
-                    <select id="model-select" class="w-full min-w-0 p-3 border border-gray-300 rounded-lg appearance-none bg-white focus:ring-2 focus:ring-blue-500 outline-none transition text-base md:text-sm">
+                    <select id="model-select" class="w-full min-w-0 p-3 border border-gray-300 dark:border-dark-border rounded-lg appearance-none bg-white dark:bg-dark-surface2 focus:ring-2 focus:ring-blue-500 outline-none transition text-base md:text-sm text-gray-900 dark:text-gray-100">
                         <option value="gpt-4o-mini" selected>gpt-4o-mini</option>
                         <option value="gpt-4o">gpt-4o</option>
                         <option value="gpt-4.1-nano">gpt-4.1-nano</option>
@@ -162,27 +202,30 @@
                         <option value="gpt-5.1">gpt-5.1</option>
                         <option value="custom" data-i18n="model_custom">Custom</option>
                     </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 dark:text-gray-400">
                         <span class="material-symbols-rounded">expand_more</span>
                     </div>
                 </div>
-                <div id="custom-model-container" class="hidden mt-2 w-full overflow-hidden rounded-lg border border-gray-300 focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 bg-white">
-                    <textarea id="custom-model-input" rows="1" class="w-full p-3 border-none focus:ring-0 outline-none resize-none transition text-base md:text-sm" placeholder="Enter Model ID" data-i18n-placeholder="custom_model_placeholder"></textarea>
+                <div id="custom-model-container" class="hidden mt-2 w-full overflow-hidden rounded-lg border border-gray-300 dark:border-dark-border focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-blue-500 bg-white dark:bg-dark-surface2">
+                    <textarea id="custom-model-input" rows="1" class="w-full p-3 border-none focus:ring-0 outline-none resize-none transition text-base md:text-sm bg-transparent dark:text-gray-100" placeholder="Enter Model ID" data-i18n-placeholder="custom_model_placeholder"></textarea>
                 </div>
             </div>
+
             <div>
                 <div class="flex justify-between mb-2">
-                    <label class="block text-sm font-bold text-gray-700">Temperature</label>
-                    <span id="temp-display" class="text-xs font-mono bg-gray-100 px-2 py-0.5 rounded">0.1</span>
+                    <label class="block text-sm font-bold text-gray-700 dark:text-gray-300">Temperature</label>
+                    <span id="temp-display" class="text-xs font-mono bg-gray-100 dark:bg-gray-700 dark:text-gray-300 px-2 py-0.5 rounded">0.1</span>
                 </div>
                 <input type="range" id="temp-slider" min="0" max="1" step="0.1" value="0.1" class="slider-custom w-full h-2 rounded-lg appearance-none cursor-pointer mb-6">
             </div>
         </div>
     </div>
-    <div id="toast-notification" class="fixed top-6 left-1/2 transform -translate-x-1/2 z-[60] px-4 py-2 rounded-lg shadow-lg font-bold text-sm transition-all duration-300 opacity-0 -translate-y-10 pointer-events-none flex items-center gap-2">
+
+    <div id="toast-notification" class="fixed top-6 left-1/2 transform -translate-x-1/2 z-[60] px-4 py-2 rounded-lg shadow-lg font-bold text-sm transition-all duration-300 opacity-0 -translate-y-10 pointer-events-none flex items-center gap-2 dark:shadow-gray-900/50">
         <i id="toast-icon" class="material-symbols-rounded"></i>
         <span id="toast-message"></span>
     </div>
+
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {

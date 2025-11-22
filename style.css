@@ -12,6 +12,8 @@ body {
     position: relative;
     touch-action: pan-y;
 }
+
+/* Scrollbar Styling */
 .scrollbar-custom::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -20,12 +22,22 @@ body {
     background: transparent;
 }
 .scrollbar-custom::-webkit-scrollbar-thumb {
-    background: #d1d5db;
+    background: #d1d5db; /* Light mode thumb */
     border-radius: 3px;
 }
 .scrollbar-custom::-webkit-scrollbar-thumb:hover {
     background: #9ca3af;
 }
+
+/* Dark Mode Scrollbar */
+.dark .scrollbar-custom::-webkit-scrollbar-thumb {
+    background: #4b5563; /* Dark mode thumb (gray-600) */
+}
+.dark .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+    background: #6b7280; /* gray-500 */
+}
+
+/* Prose (Markdown) Styling */
 .prose p {
     margin-bottom: 0.75em;
     line-height: 1.6;
@@ -36,16 +48,46 @@ body {
     margin-bottom: 0.75em;
 }
 .prose strong {
-    color: #1f2937;
+    color: #1f2937; /* Light mode bold */
+    font-weight: 600;
 }
+
+/* Dark Mode Prose */
+.dark .prose strong {
+    color: #e5e7eb; /* Dark mode bold (gray-200) */
+}
+.dark .prose code {
+    background-color: #374151;
+    color: #e5e7eb;
+    padding: 0.2em 0.4em;
+    border-radius: 0.25em;
+    font-size: 0.9em;
+}
+.dark .prose pre {
+    background-color: #1f2937;
+    color: #e5e7eb;
+    padding: 1em;
+    border-radius: 0.5em;
+    overflow-x: auto;
+}
+.dark .prose a {
+    color: #60a5fa; /* blue-400 */
+}
+
 button:active {
     transform: translateY(1px);
 }
+
+/* Custom Slider */
 .slider-custom {
     -webkit-appearance: none;
     background: #e5e7eb;
     outline: none;
 }
+.dark .slider-custom {
+    background: #374151; /* Dark mode slider track */
+}
+
 .slider-custom::-webkit-slider-thumb {
     -webkit-appearance: none;
     width: 16px;
@@ -56,6 +98,13 @@ button:active {
     border: 2px solid #fff;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
+
+/* Dark Mode Slider Thumb */
+.dark .slider-custom::-webkit-slider-thumb {
+    background: #3b82f6; /* blue-500 */
+    border-color: #1f2937; /* Match thumb border to darker background */
+}
+
 .material-symbols-rounded {
     font-size: 24px;
     vertical-align: middle;
