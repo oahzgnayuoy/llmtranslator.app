@@ -621,12 +621,3 @@ function renderHistoryList(history) {
         </div>
     `).join('');
 }
-
-
-
-
-
-
-
-
-
