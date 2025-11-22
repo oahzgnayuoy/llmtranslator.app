@@ -22,10 +22,10 @@ const translations = {
         history_empty: "暂无历史记录",
         history_clear_confirm: "确定要清空所有历史记录吗？",
         settings_title: "设置",
-        setting_theme: "界面主题", // New
-        theme_auto: "跟随系统 (自动)", // New
-        theme_light: "浅色模式", // New
-        theme_dark: "深色模式", // New
+        setting_theme: "界面主题",
+        theme_auto: "跟随系统 (自动)",
+        theme_light: "浅色模式",
+        theme_dark: "深色模式",
         setting_stream: "流式输出",
         setting_api_url: "API URL",
         setting_reset: "重置为默认值",
@@ -56,10 +56,10 @@ const translations = {
         history_empty: "暫無歷史記錄",
         history_clear_confirm: "確定要清除所有歷史記錄嗎？",
         settings_title: "設定",
-        setting_theme: "介面主題", // New
-        theme_auto: "跟隨系統 (自動)", // New
-        theme_light: "淺色模式", // New
-        theme_dark: "深色模式", // New
+        setting_theme: "介面主題",
+        theme_auto: "跟隨系統 (自動)",
+        theme_light: "淺色模式",
+        theme_dark: "深色模式",
         setting_stream: "串流回應",
         setting_api_url: "API URL",
         setting_reset: "重設為預設值",
@@ -90,11 +90,11 @@ const translations = {
         history_empty: "No history yet",
         history_clear_confirm: "Are you sure you want to clear all history?",
         settings_title: "Settings",
-        setting_theme: "Theme", // New
-        theme_auto: "System (Auto)", // New
-        theme_light: "Light", // New
-        theme_dark: "Dark", // New
-        setting_stream: "Stream Output",
+        setting_theme: "Theme",
+        theme_auto: "System (Auto)",
+        theme_light: "Light",
+        theme_dark: "Dark",
+        setting_stream: "Streaming Output",
         setting_api_url: "API URL",
         setting_reset: "Reset Default",
         setting_api_key: "API Key",
@@ -119,7 +119,7 @@ let config = {
     model: 'gpt-4o-mini',
     temperature: 0.1,
     stream: true,
-    theme: 'auto' // Added theme config
+    theme: 'auto'
 };
 
 const langMap = {
@@ -138,13 +138,12 @@ const langMap = {
 document.addEventListener('DOMContentLoaded', () => {
     marked.setOptions({ breaks: true });
     initLanguage();
-    loadConfig(); // Config loads theme, applies it
+    loadConfig();
     loadLastUsedLangs();
     loadHistory();
     setupEventListeners();
     toggleClearButton();
     
-    // Init slider bg
     const slider = document.getElementById('temp-slider');
     updateSliderBackground(slider);
 
@@ -153,7 +152,6 @@ document.addEventListener('DOMContentLoaded', () => {
         panel.classList.add('transition-transform', 'duration-300');
     }, 300);
 
-    // Listener for System Dark Mode Changes
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
         if (config.theme === 'auto') {
             applyTheme('auto');
@@ -161,7 +159,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// ... (initLanguage, changeLanguage, toggleLangMenu, applyLanguage, getTrans remain same) ...
 function initLanguage() {
     const savedLang = localStorage.getItem(UI_LANG_KEY);
     if (savedLang) {
@@ -178,16 +175,19 @@ function initLanguage() {
     }
     applyLanguage(currentLang);
 }
+
 function changeLanguage(lang) {
     currentLang = lang;
     localStorage.setItem(UI_LANG_KEY, currentLang);
     applyLanguage(currentLang);
     document.getElementById('lang-menu').classList.add('hidden');
 }
+
 function toggleLangMenu() {
     const menu = document.getElementById('lang-menu');
     menu.classList.toggle('hidden');
 }
+
 function applyLanguage(lang) {
     const t = translations[lang];
     document.title = t.app_title;
@@ -199,16 +199,15 @@ function applyLanguage(lang) {
         const key = el.getAttribute('data-i18n-placeholder');
         if (t[key]) el.placeholder = t[key];
     });
-    // Update Button state text if needed
     if(currentController) updateBtnState(true);
     else updateBtnState(false);
 }
+
 function getTrans(key) {
     return translations[currentLang][key] || key;
 }
 
 function setupEventListeners() {
-    // ... (Existing listeners) ...
     document.getElementById('btn-settings').addEventListener('click', openSettings);
     const btnLang = document.getElementById('btn-lang');
     const langMenu = document.getElementById('lang-menu');
@@ -242,23 +241,21 @@ function setupEventListeners() {
     document.getElementById('btn-close-settings').addEventListener('click', closeSettings);
     document.getElementById('btn-reset-url').addEventListener('click', resetUrl);
     
+    // Theme button listener
+    document.getElementById('btn-theme').addEventListener('click', cycleTheme);
+    
     const slider = document.getElementById('temp-slider');
     slider.addEventListener('input', (e) => {
         document.getElementById('temp-display').innerText = e.target.value;
         updateSliderBackground(e.target);
     });
 
-    // Add 'theme-select' to settingInputs
-    const settingInputs = ['api-url', 'api-key', 'model-select', 'stream-toggle', 'temp-slider', 'custom-model-input', 'theme-select'];
+    const settingInputs = ['api-url', 'api-key', 'model-select', 'stream-toggle', 'temp-slider', 'custom-model-input'];
     settingInputs.forEach(id => {
         const el = document.getElementById(id);
         if (el) {
             el.addEventListener('input', () => {
                 settingsDirty = true;
-                // Preview theme immediately if theme selector changes
-                if(id === 'theme-select') {
-                    applyTheme(el.value);
-                }
             });
             el.addEventListener('change', () => {
                 settingsDirty = true;
@@ -273,7 +270,6 @@ function setupEventListeners() {
     });
 }
 
-// ... (toggleCustomModelInput, updateBtnState) ...
 function toggleCustomModelInput() {
     const select = document.getElementById('model-select');
     const customContainer = document.getElementById('custom-model-container');
@@ -283,6 +279,7 @@ function toggleCustomModelInput() {
         customContainer.classList.add('hidden');
     }
 }
+
 function updateBtnState(isTranslating) {
     const btn = document.getElementById('btn-translate');
     if (isTranslating) {
@@ -304,7 +301,6 @@ function showToast(message, type) {
     if (toastTimeout) clearTimeout(toastTimeout);
 
     msg.innerText = message;
-    // Reset classes
     toast.className = "fixed top-6 left-1/2 transform -translate-x-1/2 z-[60] px-4 py-2 rounded-lg shadow-lg font-bold text-sm transition-all duration-300 flex items-center gap-2 pointer-events-none";
     
     if (type === 'success') {
@@ -326,21 +322,13 @@ function showToast(message, type) {
 
 function updateSliderBackground(slider) {
     const percentage = (slider.value - slider.min) / (slider.max - slider.min) * 100;
-    // Simple blue track. The CSS handles the dark mode track background color.
-    // We just need to set the gradient for the filled part.
-    const filledColor = '#2563eb'; // blue-600
-    // Background track color needs to match CSS. 
-    // We can read the computed style or just hardcode reasonable defaults for JS manipulation
-    // But cleaner is to use a linear gradient with transparent for the "empty" part and let CSS bg color show through?
-    // No, linear-gradient covers background-color. 
-    // Let's detect dark mode via class
+    const filledColor = '#2563eb';
     const isDark = document.documentElement.classList.contains('dark');
-    const emptyColor = isDark ? '#374151' : '#e5e7eb'; // gray-700 : gray-200
+    const emptyColor = isDark ? '#374151' : '#e5e7eb';
     
     slider.style.background = `linear-gradient(to right, ${filledColor} ${percentage}%, ${emptyColor} ${percentage}%)`;
 }
 
-// ... (loadLastUsedLangs, saveCurrentLangs, swapLanguages, clearInput, toggleClearButton, copyOutput, switchTab) ...
 function loadLastUsedLangs() {
     const saved = localStorage.getItem(LANG_KEY);
     if (saved) {
@@ -353,11 +341,13 @@ function loadLastUsedLangs() {
         } catch (e) { console.error('Error loading language prefs', e); }
     }
 }
+
 function saveCurrentLangs() {
     const source = document.getElementById('source-lang').value;
     const target = document.getElementById('target-lang').value;
     localStorage.setItem(LANG_KEY, JSON.stringify({ source, target }));
 }
+
 function swapLanguages() {
     const sourceEl = document.getElementById('source-lang');
     const targetEl = document.getElementById('target-lang');
@@ -366,6 +356,7 @@ function swapLanguages() {
     targetEl.value = temp;
     saveCurrentLangs();
 }
+
 function clearInput() {
     const inputBox = document.getElementById('input-text');
     inputBox.value = '';
@@ -379,6 +370,7 @@ function clearInput() {
         document.getElementById('loading-indicator').classList.add('hidden');
     }
 }
+
 function toggleClearButton() {
     const val = document.getElementById('input-text').value;
     const btn = document.getElementById('btn-clear-input');
@@ -392,6 +384,7 @@ function toggleClearButton() {
         }
     }
 }
+
 async function copyOutput() {
     const outputText = document.getElementById('output-text').innerText;
     if (outputText.includes('...') || !outputText.trim()) return;
@@ -407,6 +400,7 @@ async function copyOutput() {
         showToast(getTrans('copy_fail'), 'error');
     }
 }
+
 function switchTab(tabName) {
     const translateView = document.getElementById('view-translate');
     const historyView = document.getElementById('view-history');
@@ -419,7 +413,7 @@ function switchTab(tabName) {
         historyView.classList.add('hidden');
         historyView.classList.remove('flex');
         tabTranslate.classList.replace('text-gray-400', 'text-blue-600');
-        tabTranslate.classList.add('dark:text-blue-400'); // active dark color
+        tabTranslate.classList.add('dark:text-blue-400');
         tabHistory.classList.replace('text-blue-600', 'text-gray-400');
         tabHistory.classList.remove('dark:text-blue-400');
     } else {
@@ -446,8 +440,6 @@ function loadConfig() {
     document.getElementById('temp-display').innerText = config.temperature;
     document.getElementById('stream-toggle').checked = config.stream;
     
-    // Load Theme
-    document.getElementById('theme-select').value = config.theme || 'auto';
     applyTheme(config.theme || 'auto');
 
     const modelSelect = document.getElementById('model-select');
@@ -467,8 +459,16 @@ function loadConfig() {
 function applyTheme(themeMode) {
     const root = document.documentElement;
     const metaThemeColor = document.getElementById('theme-color-meta');
-    let isDark = false;
+    const btn = document.getElementById('btn-theme');
+    
+    if (btn) {
+        let icon = 'routine';
+        if (themeMode === 'light') icon = 'light_mode';
+        if (themeMode === 'dark') icon = 'dark_mode';
+        btn.innerHTML = `<span class="material-symbols-rounded">${icon}</span>`;
+    }
 
+    let isDark = false;
     if (themeMode === 'auto') {
         isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     } else if (themeMode === 'dark') {
@@ -479,14 +479,24 @@ function applyTheme(themeMode) {
 
     if (isDark) {
         root.classList.add('dark');
-        metaThemeColor.setAttribute('content', '#1e1e1e'); // Dark Surface Color
+        metaThemeColor.setAttribute('content', '#1e1e1e');
     } else {
         root.classList.remove('dark');
         metaThemeColor.setAttribute('content', '#ffffff');
     }
     
-    // Re-update slider background as it depends on theme colors
     updateSliderBackground(document.getElementById('temp-slider'));
+}
+
+function cycleTheme() {
+    const modes = ['auto', 'light', 'dark'];
+    const currentIdx = modes.indexOf(config.theme) !== -1 ? modes.indexOf(config.theme) : 0;
+    const nextIdx = (currentIdx + 1) % modes.length;
+    
+    config.theme = modes[nextIdx];
+    
+    applyTheme(config.theme);
+    localStorage.setItem(CONFIG_KEY, JSON.stringify(config));
 }
 
 function saveConfigFromUI() {
@@ -501,7 +511,6 @@ function saveConfigFromUI() {
     }
     config.temperature = parseFloat(document.getElementById('temp-slider').value);
     config.stream = document.getElementById('stream-toggle').checked;
-    config.theme = document.getElementById('theme-select').value;
     
     localStorage.setItem(CONFIG_KEY, JSON.stringify(config));
 }
@@ -519,9 +528,6 @@ function closeSettings() {
         showToast(getTrans('toast_settings_updated'), "success");
         settingsDirty = false;
     }
-    // Re-apply saved theme just in case they changed it but cancelled (logic here saves on close, so it's fine)
-    // Actually, if they changed dropdown but didn't save, we might want to revert? 
-    // Current logic saves implicitly on close if dirty.
     
     document.getElementById('settings-overlay').classList.add('hidden');
     document.getElementById('settings-panel').classList.add('translate-x-full');
@@ -532,7 +538,6 @@ function resetUrl() {
     settingsDirty = true;
 }
 
-// ... (doTranslate) ...
 async function doTranslate() {
     const inputText = document.getElementById('input-text').value.trim();
     if (!inputText) return;
@@ -690,7 +695,6 @@ function addToHistory(from, to, original, translated) {
     history.unshift(newEntry);
     if (history.length > 50) history.pop();
     localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
-    // Update UI if visible
     const historyView = document.getElementById('view-history');
     if (historyView && !historyView.classList.contains('hidden')) {
         renderHistoryList(history);
@@ -717,7 +721,6 @@ function renderHistoryList(history) {
         return;
     }
 
-    // Added dark mode classes to template string
     container.innerHTML = history.map(item => `
         <div class="bg-white dark:bg-dark-surface p-3 rounded-xl shadow-sm border border-gray-100 dark:border-dark-border hover:shadow-md transition">
             <div class="flex justify-between items-center mb-2">
