@@ -135,8 +135,19 @@ const langMap = {
     'Auto': 'Auto'
 };
 
+// 辅助函数：HTML 转义，用于在 innerHTML 中安全显示纯文本
+function escapeHtml(text) {
+    if (!text) return '';
+    return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-    marked.setOptions({ breaks: true });
+    // 移除 marked.setOptions，因为不再使用
     initLanguage();
     loadConfig();
     loadLastUsedLangs();
@@ -556,7 +567,8 @@ async function doTranslate() {
     const outputDiv = document.getElementById('output-text');
     const loading = document.getElementById('loading-indicator');
 
-    outputDiv.innerHTML = '';
+    // 清空并准备输出
+    outputDiv.innerText = ''; // 使用 innerText 而不是 innerHTML
     loading.classList.remove('hidden');
     document.getElementById('btn-copy-output').classList.add('hidden');
     updateBtnState(true);
@@ -636,7 +648,10 @@ Translate the above text enclosed with <translate_input> into ${toLang} without 
                             if (content) {
                                 const isAtBottom = outputDiv.scrollHeight - outputDiv.scrollTop - outputDiv.clientHeight < 50;
                                 fullText += content;
-                                outputDiv.innerHTML = marked.parse(fullText);
+                                
+                                // 修改为纯文本输出
+                                outputDiv.innerText = fullText; 
+
                                 if (isAtBottom) {
                                     outputDiv.scrollTop = outputDiv.scrollHeight;
                                 }
@@ -651,7 +666,8 @@ Translate the above text enclosed with <translate_input> into ${toLang} without 
         } else {
             const data = await response.json();
             fullText = data.choices[0].message.content;
-            outputDiv.innerHTML = marked.parse(fullText);
+            // 修改为纯文本输出
+            outputDiv.innerText = fullText; 
             document.getElementById('btn-copy-output').classList.remove('hidden');
         }
         addToHistory(sourceVal, targetVal, inputText, fullText);
@@ -721,6 +737,7 @@ function renderHistoryList(history) {
         return;
     }
 
+    // 修改：移除 prose 类，添加 whitespace-pre-wrap，并使用 escapeHtml 处理文本
     container.innerHTML = history.map(item => `
         <div class="bg-white dark:bg-dark-surface p-3 rounded-xl shadow-sm border border-gray-100 dark:border-dark-border hover:shadow-md transition">
             <div class="flex justify-between items-center mb-2">
@@ -732,8 +749,8 @@ function renderHistoryList(history) {
                 <span class="text-xs text-gray-400 dark:text-gray-500">${item.timestamp}</span>
             </div>
             <div class="flex flex-col md:flex-row md:gap-4">
-                <div class="w-full md:w-1/2 mb-2 md:mb-0 text-gray-900 dark:text-gray-200 text-base leading-relaxed break-words whitespace-pre-wrap">${item.original}</div>
-                <div class="w-full md:w-1/2 md:border-l md:border-gray-200 dark:md:border-gray-700 md:pl-4 border-t border-gray-100 dark:border-gray-700 pt-2 md:pt-0 md:border-t-0 text-gray-500 dark:text-gray-400 text-base leading-relaxed break-words whitespace-pre-wrap prose dark:prose-invert max-w-none [&_p]:m-0 [&_ul]:m-0 [&_ol]:m-0">${marked.parse(item.translated || '')}</div>
+                <div class="w-full md:w-1/2 mb-2 md:mb-0 text-gray-900 dark:text-gray-200 text-base leading-relaxed break-words whitespace-pre-wrap">${escapeHtml(item.original)}</div>
+                <div class="w-full md:w-1/2 md:border-l md:border-gray-200 dark:md:border-gray-700 md:pl-4 border-t border-gray-100 dark:border-gray-700 pt-2 md:pt-0 md:border-t-0 text-gray-500 dark:text-gray-400 text-base leading-relaxed break-words whitespace-pre-wrap max-w-none">${escapeHtml(item.translated || '')}</div>
             </div>
         </div>
     `).join('');
