@@ -1,13 +1,10 @@
 {
   "name": "LLM Translator",
   "short_name": "LLM Translator",
-  "id": "/llm-translator/",
-  "start_url": "./index.html",
-  "scope": "./",
+  "start_url": "./",
   "display": "standalone",
   "background_color": "#f9fafb",
   "theme_color": "#ffffff",
-  "orientation": "portrait",
   "icons": [
     {
       "src": "icon-192.png",
@@ -20,4 +17,5 @@
       "type": "image/png"
     }
   ]
+
 }
