@@ -324,8 +324,8 @@ function resetUrl() {
 }
 
 async function doTranslate() {
-    const inputText = document.getElementById('input-text').value.trim();
-    if (!inputText) return;
+    const inputText = document.getElementById('input-text').value;
+    if (!inputText.trim()) return;
     if (currentController) {
         currentController.abort();
         currentController = null;
