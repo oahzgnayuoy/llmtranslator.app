@@ -27,7 +27,7 @@ const translations = {
         theme_light: "浅色模式",
         theme_dark: "深色模式",
         setting_stream: "流式输出",
-        setting_api_url: "API URL",
+        setting_api_url: "API Base URL",
         setting_reset: "重置为默认值",
         setting_api_key: "API 密钥",
         setting_get_key: "获取 OpenAI API 密钥",
@@ -61,7 +61,7 @@ const translations = {
         theme_light: "淺色模式",
         theme_dark: "深色模式",
         setting_stream: "串流回應",
-        setting_api_url: "API URL",
+        setting_api_url: "API Base URL",
         setting_reset: "重設為預設值",
         setting_api_key: "API 金鑰",
         setting_get_key: "取得 OpenAI API 金鑰",
@@ -95,7 +95,7 @@ const translations = {
         theme_light: "Light",
         theme_dark: "Dark",
         setting_stream: "Streaming Output",
-        setting_api_url: "API URL",
+        setting_api_url: "API Base URL",
         setting_reset: "Reset Default",
         setting_api_key: "API Key",
         setting_get_key: "Get OpenAI API Key Here",
@@ -755,3 +755,4 @@ function renderHistoryList(history) {
         </div>
     `).join('');
 }
+
