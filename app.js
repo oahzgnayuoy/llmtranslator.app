@@ -10,163 +10,36 @@ let currentLang = 'en';
 
 const translations = {
     'zh': {
-        app_title: "LLM 翻译器",
-        lang_auto: "Auto",
-        input_placeholder: "请输入您想要翻译的文字...",
-        output_placeholder: "翻译结果将会显示在这里...",
-        btn_translate: "翻译",
-        btn_stop: "停止",
-        status_thinking: "请稍等...",
-        history_title: "历史记录",
-        history_clear: "清空所有",
-        history_empty: "暂无历史记录",
-        history_clear_confirm: "确定要清空所有历史记录吗？",
-        settings_title: "设置",
-        setting_theme: "界面主题",
-        theme_auto: "跟随系统 (自动)",
-        theme_light: "浅色模式",
-        theme_dark: "深色模式",
-        setting_stream: "流式输出",
-        setting_api_url: "API Base URL",
-        setting_reset: "重置为默认值",
-        setting_api_key: "API 密钥",
-        setting_get_key: "获取 OpenAI API 密钥",
-        key_placeholder: "sk-...",
-        setting_model: "模型",
-        model_custom: "自定义",
-        custom_model_placeholder: "输入模型 ID",
-        setting_temp: "模型温度",
-        toast_settings_updated: "设置已更新",
-        toast_settings_unsaved: "设置未保存",
-        toast_translate_done: "翻译完成",
-        toast_translate_abort: "翻译中止",
-        alert_api_key: "请先在设置中配置 API 密钥",
-        copy_fail: "复制失败"
+        app_title: "LLM 翻译器", lang_auto: "Auto", input_placeholder: "请输入您想要翻译的文字...", output_placeholder: "翻译结果将会显示在这里...", btn_translate: "翻译", btn_stop: "停止", status_thinking: "请稍等...", history_title: "历史记录", history_clear: "清空所有", history_empty: "暂无历史记录", history_clear_confirm: "确定要清空所有历史记录吗？", settings_title: "设置", setting_theme: "界面主题", setting_stream: "流式输出", setting_api_url: "API Base URL", setting_reset: "重置为默认值", setting_api_key: "API 密钥", setting_get_key: "获取 OpenAI API 密钥", key_placeholder: "sk-...", setting_model: "模型", model_custom: "自定义", custom_model_placeholder: "输入模型 ID", setting_temp: "模型温度", toast_settings_updated: "设置已更新", toast_translate_done: "翻译完成", toast_translate_abort: "翻译中止", alert_api_key: "请先在设置中配置 API 密钥", copy_fail: "复制失败"
     },
     'zh-tw': {
-        app_title: "LLM 翻譯器",
-        lang_auto: "Auto",
-        input_placeholder: "請輸入您想要翻譯的文字...",
-        output_placeholder: "翻譯結果將會顯示在這裡...",
-        btn_translate: "翻譯",
-        btn_stop: "停止",
-        status_thinking: "請稍等...",
-        history_title: "歷史記錄",
-        history_clear: "清除所有",
-        history_empty: "暫無歷史記錄",
-        history_clear_confirm: "確定要清除所有歷史記錄嗎？",
-        settings_title: "設定",
-        setting_theme: "介面主題",
-        theme_auto: "跟隨系統 (自動)",
-        theme_light: "淺色模式",
-        theme_dark: "深色模式",
-        setting_stream: "串流回應",
-        setting_api_url: "API Base URL",
-        setting_reset: "重設為預設值",
-        setting_api_key: "API 金鑰",
-        setting_get_key: "取得 OpenAI API 金鑰",
-        key_placeholder: "sk-...",
-        setting_model: "模型",
-        model_custom: "自訂",
-        custom_model_placeholder: "輸入模型 ID",
-        setting_temp: "模型溫度",
-        toast_settings_updated: "設定已更新",
-        toast_settings_unsaved: "設定未儲存",
-        toast_translate_done: "翻譯完成",
-        toast_translate_abort: "翻譯中止",
-        alert_api_key: "請先在設定中配置 API 金鑰",
-        copy_fail: "複製失敗"
+        app_title: "LLM 翻譯器", lang_auto: "Auto", input_placeholder: "請輸入您想要翻譯的文字...", output_placeholder: "翻譯結果將會顯示在這裡...", btn_translate: "翻譯", btn_stop: "停止", status_thinking: "請稍等...", history_title: "歷史記錄", history_clear: "清除所有", history_empty: "暫無歷史記錄", history_clear_confirm: "確定要清除所有歷史記錄嗎？", settings_title: "設定", setting_theme: "介面主題", setting_stream: "串流回應", setting_api_url: "API Base URL", setting_reset: "重設為預設值", setting_api_key: "API 金鑰", setting_get_key: "取得 OpenAI API 金鑰", key_placeholder: "sk-...", setting_model: "模型", model_custom: "自訂", custom_model_placeholder: "輸入模型 ID", setting_temp: "模型溫度", toast_settings_updated: "設定已更新", toast_translate_done: "翻譯完成", toast_translate_abort: "翻譯中止", alert_api_key: "請先在設定中配置 API 金鑰", copy_fail: "複製失敗"
     },
     'en': {
-        app_title: "LLM Translator",
-        lang_auto: "Auto",
-        input_placeholder: "Enter text to translate...",
-        output_placeholder: "Translation will appear here...",
-        btn_translate: "Translate",
-        btn_stop: "Stop",
-        status_thinking: "Please wait...",
-        history_title: "History",
-        history_clear: "Clear All",
-        history_empty: "No history yet",
-        history_clear_confirm: "Are you sure you want to clear all history?",
-        settings_title: "Settings",
-        setting_theme: "Theme",
-        theme_auto: "System (Auto)",
-        theme_light: "Light",
-        theme_dark: "Dark",
-        setting_stream: "Streaming Output",
-        setting_api_url: "API Base URL",
-        setting_reset: "Reset Default",
-        setting_api_key: "API Key",
-        setting_get_key: "Get OpenAI API Key Here",
-        key_placeholder: "sk-...",
-        setting_model: "Model",
-        model_custom: "Custom",
-        custom_model_placeholder: "Enter Model ID",
-        setting_temp: "Temperature",
-        toast_settings_updated: "Settings Saved",
-        toast_settings_unsaved: "Unsaved Changes",
-        toast_translate_done: "Translation Done",
-        toast_translate_abort: "Translation Aborted",
-        alert_api_key: "Please configure API Key in settings first",
-        copy_fail: "Copy Failed"
+        app_title: "LLM Translator", lang_auto: "Auto", input_placeholder: "Enter text to translate...", output_placeholder: "Translation will appear here...", btn_translate: "Translate", btn_stop: "Stop", status_thinking: "Please wait...", history_title: "History", history_clear: "Clear All", history_empty: "No history yet", history_clear_confirm: "Are you sure you want to clear all history?", settings_title: "Settings", setting_theme: "Theme", setting_stream: "Streaming Output", setting_api_url: "API Base URL", setting_reset: "Reset Default", setting_api_key: "API Key", setting_get_key: "Get OpenAI API Key Here", key_placeholder: "sk-...", setting_model: "Model", model_custom: "Custom", custom_model_placeholder: "Enter Model ID", setting_temp: "Temperature", toast_settings_updated: "Settings Saved", toast_settings_unsaved: "Unsaved Changes", toast_translate_done: "Translation Done", toast_translate_abort: "Translation Aborted", alert_api_key: "Please configure API Key in settings first", copy_fail: "Copy Failed"
     }
 };
 
-let config = {
-    apiUrl: 'https://api.openai.com',
-    apiKey: '',
-    model: 'gpt-4o-mini',
-    temperature: 0.1,
-    stream: true,
-    theme: 'auto'
-};
+let config = { apiUrl: 'https://api.openai.com', apiKey: '', model: 'gpt-4o-mini', temperature: 0.1, stream: true, theme: 'auto' };
 
-const langMap = {
-    'zh-CN': 'Simplified Chinese',
-    'zh-TW': 'Traditional Chinese',
-    'en': 'English',
-    'ja': 'Japanese',
-    'ko': 'Korean',
-    'fr': 'French',
-    'de': 'German',
-    'es': 'Spanish',
-    'ru': 'Russian',
-    'Auto': 'Auto'
-};
+const langMap = { 'zh-CN': 'Simplified Chinese', 'zh-TW': 'Traditional Chinese', 'en': 'English', 'ja': 'Japanese', 'ko': 'Korean', 'fr': 'French', 'de': 'German', 'es': 'Spanish', 'ru': 'Russian', 'Auto': 'Auto' };
 
-// 辅助函数：HTML 转义，用于在 innerHTML 中安全显示纯文本
 function escapeHtml(text) {
     if (!text) return '';
-    return text
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+    return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 移除 marked.setOptions，因为不再使用
     initLanguage();
     loadConfig();
     loadLastUsedLangs();
-    loadHistory();
+    if (document.getElementById('tab-history').checked) loadHistory();
     setupEventListeners();
     toggleClearButton();
-    
     const slider = document.getElementById('temp-slider');
     updateSliderBackground(slider);
-
-    setTimeout(() => {
-        const panel = document.getElementById('settings-panel');
-        panel.classList.add('transition-transform', 'duration-300');
-    }, 300);
-
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-        if (config.theme === 'auto') {
-            applyTheme('auto');
-        }
+        if (config.theme === 'auto') applyTheme('auto');
     });
 });
 
@@ -176,13 +49,7 @@ function initLanguage() {
         currentLang = savedLang;
     } else {
         const browserLang = (navigator.language || navigator.userLanguage).toLowerCase();
-        if (browserLang === 'zh-tw' || browserLang === 'zh-hk') {
-            currentLang = 'zh-tw';
-        } else if (browserLang.startsWith('zh')) {
-            currentLang = 'zh';
-        } else {
-            currentLang = 'en';
-        }
+        currentLang = (browserLang === 'zh-tw' || browserLang === 'zh-hk') ? 'zh-tw' : (browserLang.startsWith('zh') ? 'zh' : 'en');
     }
     applyLanguage(currentLang);
 }
@@ -191,12 +58,6 @@ function changeLanguage(lang) {
     currentLang = lang;
     localStorage.setItem(UI_LANG_KEY, currentLang);
     applyLanguage(currentLang);
-    document.getElementById('lang-menu').classList.add('hidden');
-}
-
-function toggleLangMenu() {
-    const menu = document.getElementById('lang-menu');
-    menu.classList.toggle('hidden');
 }
 
 function applyLanguage(lang) {
@@ -210,49 +71,42 @@ function applyLanguage(lang) {
         const key = el.getAttribute('data-i18n-placeholder');
         if (t[key]) el.placeholder = t[key];
     });
-    if(currentController) updateBtnState(true);
-    else updateBtnState(false);
+    updateBtnState(!!currentController);
 }
 
-function getTrans(key) {
-    return translations[currentLang][key] || key;
-}
+function getTrans(key) { return translations[currentLang][key] || key; }
 
 function setupEventListeners() {
-    document.getElementById('btn-settings').addEventListener('click', openSettings);
-    const btnLang = document.getElementById('btn-lang');
-    const langMenu = document.getElementById('lang-menu');
-    btnLang.addEventListener('click', (e) => {
-        e.stopPropagation();
-        toggleLangMenu();
-    });
-    document.addEventListener('click', (e) => {
-        if (!btnLang.contains(e.target) && !langMenu.contains(e.target)) {
-            langMenu.classList.add('hidden');
-        }
-    });
-    document.getElementById('tab-translate').addEventListener('click', () => switchTab('translate'));
-    document.getElementById('tab-history').addEventListener('click', () => switchTab('history'));
-    document.getElementById('btn-translate').addEventListener('click', () => {
-        if (currentController) {
-            currentController.abort();
+    const settingsToggle = document.getElementById('settings-toggle');
+    settingsToggle.addEventListener('change', (e) => {
+        if (settingsToggle.checked) {
+             loadConfig();
+             settingsDirty = false;
         } else {
-            doTranslate();
+             if (settingsDirty) {
+                saveConfigFromUI();
+                showToast(getTrans('toast_settings_updated'), "success");
+                settingsDirty = false;
+            }
         }
     });
+
+    document.getElementById('btn-translate').addEventListener('click', () => {
+        if (currentController) currentController.abort();
+        else doTranslate();
+    });
+    
+    document.getElementById('tab-history').addEventListener('change', loadHistory);
     document.getElementById('btn-swap-lang').addEventListener('click', swapLanguages);
     document.getElementById('source-lang').addEventListener('change', saveCurrentLangs);
     document.getElementById('target-lang').addEventListener('change', saveCurrentLangs);
+    
     const inputBox = document.getElementById('input-text');
     inputBox.addEventListener('input', toggleClearButton);
     document.getElementById('btn-clear-input').addEventListener('click', clearInput);
     document.getElementById('btn-copy-output').addEventListener('click', copyOutput);
     document.getElementById('btn-clear-history').addEventListener('click', clearHistory);
-    document.getElementById('settings-overlay').addEventListener('click', closeSettings);
-    document.getElementById('btn-close-settings').addEventListener('click', closeSettings);
     document.getElementById('btn-reset-url').addEventListener('click', resetUrl);
-    
-    // Theme button listener
     document.getElementById('btn-theme').addEventListener('click', cycleTheme);
     
     const slider = document.getElementById('temp-slider');
@@ -265,17 +119,12 @@ function setupEventListeners() {
     settingInputs.forEach(id => {
         const el = document.getElementById(id);
         if (el) {
-            el.addEventListener('input', () => {
-                settingsDirty = true;
-            });
-            el.addEventListener('change', () => {
-                settingsDirty = true;
-            });
+            el.addEventListener('input', () => settingsDirty = true);
+            el.addEventListener('change', () => settingsDirty = true);
         }
     });
 
-    const modelSelect = document.getElementById('model-select');
-    modelSelect.addEventListener('change', (e) => {
+    document.getElementById('model-select').addEventListener('change', (e) => {
         settingsDirty = true;
         toggleCustomModelInput();
     });
@@ -284,11 +133,8 @@ function setupEventListeners() {
 function toggleCustomModelInput() {
     const select = document.getElementById('model-select');
     const customContainer = document.getElementById('custom-model-container');
-    if (select.value === 'custom') {
-        customContainer.classList.remove('hidden');
-    } else {
-        customContainer.classList.add('hidden');
-    }
+    if (select.value === 'custom') customContainer.classList.remove('hidden');
+    else customContainer.classList.add('hidden');
 }
 
 function updateBtnState(isTranslating) {
@@ -310,7 +156,6 @@ function showToast(message, type) {
     const msg = document.getElementById('toast-message');
 
     if (toastTimeout) clearTimeout(toastTimeout);
-
     msg.innerText = message;
     toast.className = "fixed top-6 left-1/2 transform -translate-x-1/2 z-[60] px-4 py-2 rounded-lg shadow-lg font-bold text-sm transition-all duration-300 flex items-center gap-2 pointer-events-none";
     
@@ -321,14 +166,8 @@ function showToast(message, type) {
         toast.classList.add('bg-red-100', 'text-red-600', 'border', 'border-red-200', 'dark:bg-red-900/80', 'dark:text-red-300', 'dark:border-red-800');
         icon.innerHTML = 'error';
     }
-
-    requestAnimationFrame(() => {
-        toast.classList.remove('opacity-0', '-translate-y-10');
-    });
-
-    toastTimeout = setTimeout(() => {
-        toast.classList.add('opacity-0', '-translate-y-10');
-    }, 2000);
+    requestAnimationFrame(() => toast.classList.remove('opacity-0', '-translate-y-10'));
+    toastTimeout = setTimeout(() => toast.classList.add('opacity-0', '-translate-y-10'), 2000);
 }
 
 function updateSliderBackground(slider) {
@@ -336,7 +175,6 @@ function updateSliderBackground(slider) {
     const filledColor = '#2563eb';
     const isDark = document.documentElement.classList.contains('dark');
     const emptyColor = isDark ? '#374151' : '#e5e7eb';
-    
     slider.style.background = `linear-gradient(to right, ${filledColor} ${percentage}%, ${emptyColor} ${percentage}%)`;
 }
 
@@ -404,53 +242,18 @@ async function copyOutput() {
         const btn = document.getElementById('btn-copy-output');
         const originalIcon = btn.innerHTML;
         btn.innerHTML = '<span class="material-symbols-rounded">check</span>';
-        setTimeout(() => {
-            btn.innerHTML = originalIcon;
-        }, 1500);
-    } catch (err) {
-        showToast(getTrans('copy_fail'), 'error');
-    }
-}
-
-function switchTab(tabName) {
-    const translateView = document.getElementById('view-translate');
-    const historyView = document.getElementById('view-history');
-    const tabTranslate = document.getElementById('tab-translate');
-    const tabHistory = document.getElementById('tab-history');
-
-    if (tabName === 'translate') {
-        translateView.classList.remove('hidden');
-        translateView.classList.add('flex');
-        historyView.classList.add('hidden');
-        historyView.classList.remove('flex');
-        tabTranslate.classList.replace('text-gray-400', 'text-blue-600');
-        tabTranslate.classList.add('dark:text-blue-400');
-        tabHistory.classList.replace('text-blue-600', 'text-gray-400');
-        tabHistory.classList.remove('dark:text-blue-400');
-    } else {
-        translateView.classList.add('hidden');
-        translateView.classList.remove('flex');
-        historyView.classList.remove('hidden');
-        historyView.classList.add('flex');
-        tabTranslate.classList.replace('text-blue-600', 'text-gray-400');
-        tabTranslate.classList.remove('dark:text-blue-400');
-        tabHistory.classList.replace('text-gray-400', 'text-blue-600');
-        tabHistory.classList.add('dark:text-blue-400');
-        loadHistory();
-    }
+        setTimeout(() => btn.innerHTML = originalIcon, 1500);
+    } catch (err) { showToast(getTrans('copy_fail'), 'error'); }
 }
 
 function loadConfig() {
     const saved = localStorage.getItem(CONFIG_KEY);
-    if (saved) {
-        config = { ...config, ...JSON.parse(saved) };
-    }
+    if (saved) config = { ...config, ...JSON.parse(saved) };
     document.getElementById('api-url').value = config.apiUrl;
     document.getElementById('api-key').value = config.apiKey;
     document.getElementById('temp-slider').value = config.temperature;
     document.getElementById('temp-display').innerText = config.temperature;
     document.getElementById('stream-toggle').checked = config.stream;
-    
     applyTheme(config.theme || 'auto');
 
     const modelSelect = document.getElementById('model-select');
@@ -480,13 +283,9 @@ function applyTheme(themeMode) {
     }
 
     let isDark = false;
-    if (themeMode === 'auto') {
-        isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    } else if (themeMode === 'dark') {
-        isDark = true;
-    } else {
-        isDark = false;
-    }
+    if (themeMode === 'auto') isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    else if (themeMode === 'dark') isDark = true;
+    else isDark = false;
 
     if (isDark) {
         root.classList.add('dark');
@@ -495,7 +294,6 @@ function applyTheme(themeMode) {
         root.classList.remove('dark');
         metaThemeColor.setAttribute('content', '#ffffff');
     }
-    
     updateSliderBackground(document.getElementById('temp-slider'));
 }
 
@@ -503,9 +301,7 @@ function cycleTheme() {
     const modes = ['auto', 'light', 'dark'];
     const currentIdx = modes.indexOf(config.theme) !== -1 ? modes.indexOf(config.theme) : 0;
     const nextIdx = (currentIdx + 1) % modes.length;
-    
     config.theme = modes[nextIdx];
-    
     applyTheme(config.theme);
     localStorage.setItem(CONFIG_KEY, JSON.stringify(config));
 }
@@ -515,33 +311,11 @@ function saveConfigFromUI() {
     config.apiUrl = url.replace(/\/+$/, "");
     config.apiKey = document.getElementById('api-key').value.trim();
     const selectVal = document.getElementById('model-select').value;
-    if (selectVal === 'custom') {
-        config.model = document.getElementById('custom-model-input').value.trim() || 'gpt-4o-mini';
-    } else {
-        config.model = selectVal;
-    }
+    if (selectVal === 'custom') config.model = document.getElementById('custom-model-input').value.trim() || 'gpt-4o-mini';
+    else config.model = selectVal;
     config.temperature = parseFloat(document.getElementById('temp-slider').value);
     config.stream = document.getElementById('stream-toggle').checked;
-    
     localStorage.setItem(CONFIG_KEY, JSON.stringify(config));
-}
-
-function openSettings() {
-    loadConfig();
-    settingsDirty = false;
-    document.getElementById('settings-overlay').classList.remove('hidden');
-    document.getElementById('settings-panel').classList.remove('translate-x-full');
-}
-
-function closeSettings() {
-    if (settingsDirty) {
-        saveConfigFromUI();
-        showToast(getTrans('toast_settings_updated'), "success");
-        settingsDirty = false;
-    }
-    
-    document.getElementById('settings-overlay').classList.add('hidden');
-    document.getElementById('settings-panel').classList.add('translate-x-full');
 }
 
 function resetUrl() {
@@ -559,7 +333,8 @@ async function doTranslate() {
     }
     if (!config.apiKey) {
         alert(getTrans('alert_api_key'));
-        openSettings();
+        document.getElementById('settings-toggle').checked = true;
+        document.getElementById('settings-toggle').dispatchEvent(new Event('change'));
         return;
     }
     const sourceVal = document.getElementById('source-lang').value;
@@ -567,8 +342,7 @@ async function doTranslate() {
     const outputDiv = document.getElementById('output-text');
     const loading = document.getElementById('loading-indicator');
 
-    // 清空并准备输出
-    outputDiv.innerText = ''; // 使用 innerText 而不是 innerHTML
+    outputDiv.innerText = '';
     loading.classList.remove('hidden');
     document.getElementById('btn-copy-output').classList.add('hidden');
     updateBtnState(true);
@@ -588,35 +362,21 @@ Translate the above text enclosed with <translate_input> into ${toLang} without 
     const signal = currentController.signal;
 
     try {
-        const headers = {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${config.apiKey}`
-        };
+        const headers = { "Content-Type": "application/json", "Authorization": `Bearer ${config.apiKey}` };
         const body = {
             model: config.model,
-            messages: [
-                { role: "system", content: systemPrompt },
-                { role: "user", content: userPrompt }
-            ],
+            messages: [{ role: "system", content: systemPrompt }, { role: "user", content: userPrompt }],
             temperature: config.temperature,
             stream: config.stream
         };
 
         let endpoint = config.apiUrl;
         if (!endpoint.includes('/chat/completions')) {
-            if (!endpoint.endsWith('/v1')) {
-                endpoint = `${endpoint}/v1`;
-            }
+            if (!endpoint.endsWith('/v1')) endpoint = `${endpoint}/v1`;
             endpoint = `${endpoint}/chat/completions`;
         }
 
-        const response = await fetch(endpoint, {
-            method: "POST",
-            headers: headers,
-            body: JSON.stringify(body),
-            signal: signal
-        });
-
+        const response = await fetch(endpoint, { method: "POST", headers: headers, body: JSON.stringify(body), signal: signal });
         if (!response.ok) {
             const err = await response.json().catch(() => ({}));
             throw new Error(err.error?.message || `Status ${response.status}`);
@@ -642,31 +402,22 @@ Translate the above text enclosed with <translate_input> into ${toLang} without 
                     if (!trimmedLine || trimmedLine === 'data: [DONE]') continue;
                     if (trimmedLine.startsWith('data: ')) {
                         try {
-                            const jsonStr = trimmedLine.slice(6);
-                            const data = JSON.parse(jsonStr);
+                            const data = JSON.parse(trimmedLine.slice(6));
                             const content = data.choices[0]?.delta?.content;
                             if (content) {
                                 const isAtBottom = outputDiv.scrollHeight - outputDiv.scrollTop - outputDiv.clientHeight < 50;
                                 fullText += content;
-                                
-                                // 修改为纯文本输出
                                 outputDiv.innerText = fullText; 
-
-                                if (isAtBottom) {
-                                    outputDiv.scrollTop = outputDiv.scrollHeight;
-                                }
+                                if (isAtBottom) outputDiv.scrollTop = outputDiv.scrollHeight;
                                 document.getElementById('btn-copy-output').classList.remove('hidden');
                             }
-                        } catch (e) {
-                            console.warn("JSON Parse Error:", e);
-                        }
+                        } catch (e) { console.warn("JSON Parse Error:", e); }
                     }
                 }
             }
         } else {
             const data = await response.json();
             fullText = data.choices[0].message.content;
-            // 修改为纯文本输出
             outputDiv.innerText = fullText; 
             document.getElementById('btn-copy-output').classList.remove('hidden');
         }
@@ -679,9 +430,7 @@ Translate the above text enclosed with <translate_input> into ${toLang} without 
             return;
         }
         loading.classList.add('hidden');
-        outputDiv.innerHTML = `<div class="text-red-500 bg-red-50 dark:bg-red-900/20 p-3 rounded border border-red-100 dark:border-red-900/50">
-            <i class="material-symbols-rounded mr-1">error</i> Error: ${error.message}
-        </div>`;
+        outputDiv.innerHTML = `<div class="text-red-500 bg-red-50 dark:bg-red-900/20 p-3 rounded border border-red-100 dark:border-red-900/50"><i class="material-symbols-rounded mr-1">error</i> Error: ${error.message}</div>`;
         console.error(error);
     } finally {
         if (currentController && currentController.signal === signal) {
@@ -700,21 +449,10 @@ function loadHistory() {
 function addToHistory(from, to, original, translated) {
     if (!translated) return;
     let history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
-    const newEntry = {
-        id: Date.now(),
-        timestamp: new Date().toLocaleString(),
-        from,
-        to,
-        original,
-        translated
-    };
-    history.unshift(newEntry);
+    history.unshift({ id: Date.now(), timestamp: new Date().toLocaleString(), from, to, original, translated });
     if (history.length > 50) history.pop();
     localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
-    const historyView = document.getElementById('view-history');
-    if (historyView && !historyView.classList.contains('hidden')) {
-        renderHistoryList(history);
-    }
+    renderHistoryList(history);
 }
 
 function clearHistory() {
@@ -737,7 +475,6 @@ function renderHistoryList(history) {
         return;
     }
 
-    // 修改：移除 prose 类，添加 whitespace-pre-wrap，并使用 escapeHtml 处理文本
     container.innerHTML = history.map(item => `
         <div class="bg-white dark:bg-dark-surface p-3 rounded-xl shadow-sm border border-gray-100 dark:border-dark-border hover:shadow-md transition">
             <div class="flex justify-between items-center mb-2">
@@ -755,4 +492,3 @@ function renderHistoryList(history) {
         </div>
     `).join('');
 }
-
