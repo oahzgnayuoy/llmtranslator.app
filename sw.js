@@ -1,4 +1,4 @@
-const CACHE_NAME = 'llm-translator-v2';
+const CACHE_NAME = 'llm-translator-v1';
 const ASSETS = [
     './',
     './index.html',
@@ -45,4 +45,5 @@ self.addEventListener('fetch', (event) => {
         })
     );
 });
+
 
