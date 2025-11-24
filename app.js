@@ -268,7 +268,13 @@ async function copyOutput() {
 
 function loadConfig() {
     const saved = localStorage.getItem(CONFIG_KEY);
-    if (saved) config = { ...config, ...JSON.parse(saved) };
+    if (saved) {
+        try {
+            config = { ...config, ...JSON.parse(saved) };
+        } catch (e) {
+            console.error("Failed to parse config", e);
+        }
+    }
     document.getElementById('api-url').value = config.apiUrl;
     document.getElementById('api-key').value = config.apiKey;
     document.getElementById('temp-slider').value = config.temperature;
@@ -296,7 +302,7 @@ function applyTheme(themeMode) {
     const btn = document.getElementById('btn-theme');
     
     if (btn) {
-        let icon = 'routine';
+        let icon = 'routine'; // Keeping 'routine' as requested
         if (themeMode === 'light') icon = 'light_mode';
         if (themeMode === 'dark') icon = 'dark_mode';
         btn.innerHTML = `<span class="material-symbols-rounded">${icon}</span>`;
@@ -327,6 +333,13 @@ function cycleTheme() {
 }
 
 function saveConfigFromUI() {
+    // CRITICAL FIX: Read the latest theme from storage first to prevent overwriting it 
+    // with a stale in-memory value. This happens often on mobile when tabs are suspended.
+    let latestSaved = {};
+    try {
+        latestSaved = JSON.parse(localStorage.getItem(CONFIG_KEY) || '{}');
+    } catch (e) { console.error(e); }
+
     let url = document.getElementById('api-url').value.trim();
     config.apiUrl = url.replace(/\/+$/, "");
     config.apiKey = document.getElementById('api-key').value.trim();
@@ -335,6 +348,12 @@ function saveConfigFromUI() {
     else config.model = selectVal;
     config.temperature = parseFloat(document.getElementById('temp-slider').value);
     config.stream = document.getElementById('stream-toggle').checked;
+    
+    // Preserve the theme from the latest storage if the UI doesn't explicitly manage it here
+    if (latestSaved.theme) {
+        config.theme = latestSaved.theme;
+    }
+
     localStorage.setItem(CONFIG_KEY, JSON.stringify(config));
 }
 
