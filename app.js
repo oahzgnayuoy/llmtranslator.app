@@ -420,16 +420,20 @@ Translate the above text enclosed with <translate_input> into ${toLang} without 
                 for (const line of lines) {
                     const trimmedLine = line.trim();
                     if (!trimmedLine || trimmedLine === 'data: [DONE]') continue;
-                    if (trimmedLine.startsWith('data: ')) {
+                    if (trimmedLine.startsWith('data:')) {
                         try {
-                            const data = JSON.parse(trimmedLine.slice(6));
-                            const content = data.choices[0]?.delta?.content;
-                            if (content) {
-                                const isAtBottom = outputDiv.scrollHeight - outputDiv.scrollTop - outputDiv.clientHeight < 50;
-                                fullText += content;
-                                outputDiv.innerText = fullText; 
-                                if (isAtBottom) outputDiv.scrollTop = outputDiv.scrollHeight;
-                                document.getElementById('btn-copy-output').classList.remove('hidden');
+                            const jsonStartIndex = trimmedLine.indexOf('{');
+                            if (jsonStartIndex !== -1) {
+                                const jsonStr = trimmedLine.substring(jsonStartIndex);
+                                const data = JSON.parse(jsonStr);
+                                const content = data.choices[0]?.delta?.content;
+                                if (content) {
+                                    const isAtBottom = outputDiv.scrollHeight - outputDiv.scrollTop - outputDiv.clientHeight < 50;
+                                    fullText += content;
+                                    outputDiv.textContent = fullText; 
+                                    if (isAtBottom) outputDiv.scrollTop = outputDiv.scrollHeight;
+                                    document.getElementById('btn-copy-output').classList.remove('hidden');
+                                }
                             }
                         } catch (e) { console.warn("JSON Parse Error:", e); }
                     }
@@ -438,7 +442,7 @@ Translate the above text enclosed with <translate_input> into ${toLang} without 
         } else {
             const data = await response.json();
             fullText = data.choices[0].message.content;
-            outputDiv.innerText = fullText; 
+            outputDiv.textContent = fullText; 
             document.getElementById('btn-copy-output').classList.remove('hidden');
         }
         addToHistory(sourceVal, targetVal, inputText, fullText);
