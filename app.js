@@ -7,6 +7,7 @@ let currentController = null;
 let toastTimeout = null;
 let settingsDirty = false;
 let currentLang = 'en';
+let copyTimeout = null;
 
 const translations = {
     'zh': {
@@ -25,8 +26,12 @@ let config = { apiUrl: 'https://api.openai.com', apiKey: '', model: 'gpt-4o-mini
 const langMap = { 'zh-CN': 'Simplified Chinese', 'zh-TW': 'Traditional Chinese', 'en': 'English', 'ja': 'Japanese', 'ko': 'Korean', 'fr': 'French', 'de': 'German', 'es': 'Spanish', 'ru': 'Russian', 'Auto': 'Auto' };
 
 function escapeHtml(text) {
-    if (!text) return '';
-    return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    if (text === null || text === undefined || text === '') return '';
+    return String(text).replace(/&/g, "&amp;")
+               .replace(/</g, "&lt;")
+               .replace(/>/g, "&gt;")
+               .replace(/"/g, "&quot;")
+               .replace(/'/g, "&#039;");
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -235,15 +240,30 @@ function toggleClearButton() {
 }
 
 async function copyOutput() {
-    const outputText = document.getElementById('output-text').innerText;
-    if (outputText.includes('...') || !outputText.trim()) return;
+    const outputDiv = document.getElementById('output-text');
+    const outputText = outputDiv.innerText;
+    const isPlaceholder = outputDiv.querySelector('[data-i18n="output_placeholder"]');
+    if (!outputText.trim() || isPlaceholder) return;
+
     try {
         await navigator.clipboard.writeText(outputText);
         const btn = document.getElementById('btn-copy-output');
-        const originalIcon = btn.innerHTML;
+        const originalIcon = '<span class="material-symbols-rounded">content_copy</span>';
+
         btn.innerHTML = '<span class="material-symbols-rounded">check</span>';
-        setTimeout(() => btn.innerHTML = originalIcon, 1500);
-    } catch (err) { showToast(getTrans('copy_fail'), 'error'); }
+        btn.classList.add('text-green-600', 'dark:text-green-400');
+        btn.classList.remove('text-gray-400');
+
+        if (copyTimeout) clearTimeout(copyTimeout);
+        copyTimeout = setTimeout(() => {
+            btn.innerHTML = originalIcon;
+            btn.classList.remove('text-green-600', 'dark:text-green-400');
+            btn.classList.add('text-gray-400');
+        }, 1500);
+    } catch (err) {
+        console.error(err);
+        showToast(getTrans('copy_fail'), 'error');
+    }
 }
 
 function loadConfig() {
@@ -289,10 +309,10 @@ function applyTheme(themeMode) {
 
     if (isDark) {
         root.classList.add('dark');
-        metaThemeColor.setAttribute('content', '#1e1e1e');
+        metaThemeColor?.setAttribute('content', '#1e1e1e');
     } else {
         root.classList.remove('dark');
-        metaThemeColor.setAttribute('content', '#ffffff');
+        metaThemeColor?.setAttribute('content', '#ffffff');
     }
     updateSliderBackground(document.getElementById('temp-slider'));
 }
@@ -430,7 +450,7 @@ Translate the above text enclosed with <translate_input> into ${toLang} without 
             return;
         }
         loading.classList.add('hidden');
-        outputDiv.innerHTML = `<div class="text-red-500 bg-red-50 dark:bg-red-900/20 p-3 rounded border border-red-100 dark:border-red-900/50"><i class="material-symbols-rounded mr-1">error</i> Error: ${error.message}</div>`;
+        outputDiv.innerHTML = `<div class="text-red-500 bg-red-50 dark:bg-red-900/20 p-3 rounded border border-red-100 dark:border-red-900/50"><i class="material-symbols-rounded mr-1">error</i> Error: ${escapeHtml(error.message)}</div>`;
         console.error(error);
     } finally {
         if (currentController && currentController.signal === signal) {
@@ -479,9 +499,9 @@ function renderHistoryList(history) {
         <div class="bg-white dark:bg-dark-surface p-3 rounded-xl shadow-sm border border-gray-100 dark:border-dark-border hover:shadow-md transition">
             <div class="flex justify-between items-center mb-2">
                 <div class="flex items-center gap-2 text-xs font-bold text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-white/10 px-2 py-1 rounded">
-                    <span>${item.from}</span>
+                    <span>${escapeHtml(item.from)}</span>
                     <i class="material-symbols-rounded" style="font-size: 14px;">arrow_forward</i>
-                    <span>${item.to}</span>
+                    <span>${escapeHtml(item.to)}</span>
                 </div>
                 <span class="text-xs text-gray-400 dark:text-gray-500">${item.timestamp}</span>
             </div>
