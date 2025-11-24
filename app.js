@@ -425,6 +425,9 @@ Translate the above text enclosed with <translate_input> into ${toLang} without 
             const reader = response.body.getReader();
             const decoder = new TextDecoder("utf-8");
             let buffer = "";
+            
+            const copyBtn = document.getElementById('btn-copy-output');
+            let hasShownCopyBtn = false;
 
             while (true) {
                 const { done, value } = await reader.read();
@@ -448,7 +451,11 @@ Translate the above text enclosed with <translate_input> into ${toLang} without 
                                     fullText += content;
                                     outputDiv.textContent = fullText; 
                                     if (isAtBottom) outputDiv.scrollTop = outputDiv.scrollHeight;
-                                    document.getElementById('btn-copy-output').classList.remove('hidden');
+                                    
+                                    if (!hasShownCopyBtn) {
+                                        copyBtn.classList.remove('hidden');
+                                        hasShownCopyBtn = true;
+                                    }
                                 }
                             }
                         } catch (e) { console.warn("JSON Parse Error:", e); }
@@ -532,18 +539,3 @@ function renderHistoryList(history) {
         </div>
     `).join('');
 }
-
-document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'hidden') {
-        
-        const settingsToggle = document.getElementById('settings-toggle');
-        if (settingsToggle && settingsToggle.checked) {
-             config.apiKey = document.getElementById('api-key').value.trim();
-             config.apiUrl = document.getElementById('api-url').value.trim().replace(/\/+$/, "");
-             config.temperature = parseFloat(document.getElementById('temp-slider').value);
-             config.stream = document.getElementById('stream-toggle').checked;
-        }
-
-        localStorage.setItem(CONFIG_KEY, JSON.stringify(config));
-    }
-});
