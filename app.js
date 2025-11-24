@@ -302,7 +302,7 @@ function applyTheme(themeMode) {
     const btn = document.getElementById('btn-theme');
     
     if (btn) {
-        let icon = 'routine'; // Keeping 'routine' as requested
+        let icon = 'routine'; 
         if (themeMode === 'light') icon = 'light_mode';
         if (themeMode === 'dark') icon = 'dark_mode';
         btn.innerHTML = `<span class="material-symbols-rounded">${icon}</span>`;
@@ -333,8 +333,6 @@ function cycleTheme() {
 }
 
 function saveConfigFromUI() {
-    // CRITICAL FIX: Read the latest theme from storage first to prevent overwriting it 
-    // with a stale in-memory value. This happens often on mobile when tabs are suspended.
     let latestSaved = {};
     try {
         latestSaved = JSON.parse(localStorage.getItem(CONFIG_KEY) || '{}');
@@ -349,7 +347,6 @@ function saveConfigFromUI() {
     config.temperature = parseFloat(document.getElementById('temp-slider').value);
     config.stream = document.getElementById('stream-toggle').checked;
     
-    // Preserve the theme from the latest storage if the UI doesn't explicitly manage it here
     if (latestSaved.theme) {
         config.theme = latestSaved.theme;
     }
@@ -535,3 +532,18 @@ function renderHistoryList(history) {
         </div>
     `).join('');
 }
+
+document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') {
+        
+        const settingsToggle = document.getElementById('settings-toggle');
+        if (settingsToggle && settingsToggle.checked) {
+             config.apiKey = document.getElementById('api-key').value.trim();
+             config.apiUrl = document.getElementById('api-url').value.trim().replace(/\/+$/, "");
+             config.temperature = parseFloat(document.getElementById('temp-slider').value);
+             config.stream = document.getElementById('stream-toggle').checked;
+        }
+
+        localStorage.setItem(CONFIG_KEY, JSON.stringify(config));
+    }
+});
